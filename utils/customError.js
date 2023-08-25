@@ -15,4 +15,5 @@ const CustomError = (status, message = errorMessageList[status]) => {
 
   return error;
 };
+
 module.exports = CustomError;

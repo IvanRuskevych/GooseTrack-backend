@@ -2,7 +2,7 @@ const { isValidObjectId } = require('mongoose');
 
 const { CustomError } = require('../utils');
 
-exports.isValidId = (req, res, next) => {
+const isValidId = (req, res, next) => {
   const { contactId } = req.params;
 
   if (!isValidObjectId(contactId)) {
@@ -11,3 +11,5 @@ exports.isValidId = (req, res, next) => {
 
   next();
 };
+
+module.exports = isValidId

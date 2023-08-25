@@ -23,4 +23,6 @@ const avatarResize = async (path) => {
   await image.writeAsync(path);
 };
 
-module.exports = avatarResize;
+
+module.exports = avatarResize
+
