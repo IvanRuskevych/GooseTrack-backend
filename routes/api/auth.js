@@ -21,4 +21,8 @@ router.post('/verify', validateBody(schemas.schemaEmail), ctrl.resendVerifyEmail
 
 router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
 
+// Маршрут для оновлення refreshToken
+
+router.post('/refresh', validateBody(schemas.schemaRefreshToken), ctrl.refresh);
+
 module.exports = router;

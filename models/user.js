@@ -22,10 +22,10 @@ const userSchema = new Schema(
       minlength: 6,
       required: true,
     },
-    token: {
-      type: String,
-      default: '',
-    },
+
+    // token: { type: String, default: '',  }, Іван замінив на accessToken
+    accessToken: String,
+    refreshToken: String,
 
     // for SendGrid
     verify: {
@@ -62,11 +62,17 @@ const schemaEmail = Joi.object({
   }),
 });
 
+// for refresh token
+const schemaRefreshToken = Joi.object({
+  refreshToken: Joi.string().required(),
+});
+
 const schemas = {
   registerSchema,
   loginSchema,
 
   schemaEmail,
+  schemaRefreshToken,
 };
 
 const User = model('user', userSchema);
