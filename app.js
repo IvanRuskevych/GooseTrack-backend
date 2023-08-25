@@ -6,21 +6,19 @@ const dotenv = require("dotenv");
 dotenv.config({
   path: process.env.NODE_ENV === "production" ? "./production.env" : "./.env",
 });
-
-// const contactsRouter = require('./routes/api/contacts');
+const authRouter = require("./routes/api/auth");
+const reviewRouter = require("./routes/api/reviews");
+const tasksRouter = require("./routes/api/tasks");
 
 const app = express();
-
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-
-const tasksRouter = require("./routes/api/tasks");
 
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-// app.use('/api/contacts', contactsRouter);
-
+app.use("/api/auth", authRouter);
+app.use("/api/reviews", reviewRouter);
 app.use("/api/tasks", tasksRouter);
 
 app.use((req, res) => {

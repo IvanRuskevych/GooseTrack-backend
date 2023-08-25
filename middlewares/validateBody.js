@@ -1,11 +1,11 @@
-const { HttpError } = require('../utils');
+const { CustomError } = require('../utils');
 
-exports.validateBody = (schema) => {
+const validateBody = (schema) => {
   const fn = (req, _, next) => {
     const { error } = schema.validate(req.body);
 
     if (error) {
-      next(HttpError(400, error.message));
+      next(CustomError(400, error.message));
     }
 
     next();
@@ -13,3 +13,5 @@ exports.validateBody = (schema) => {
 
   return fn;
 };
+
+module.exports = validateBody;
