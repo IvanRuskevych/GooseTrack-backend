@@ -1,30 +1,20 @@
 const express = require('express');
 
+const ctrl = require("../../controllers/controllersAuth")
+
+const { validateBody } = require("../../middlewares");
+
+const { schemas } = require("../../models/user");
+
 const router = express.Router();
 
-/**
- * Sign-up
- */
-router.post('/register');
+// Маршрут для реєстрації користувача (signup routes)
 
-/**
- * Sign-in
- */
-router.post('/login');
+router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
-/**
- * Current user
- */
-router.get('/current');
+// Маршрут для авторизації користувача (signin routes)
 
-/**
- * Update user data
- */
-router.patch('/user');
+router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
-/**
- * Logout user
- */
-router.post('/logout');
 
 module.exports = router;

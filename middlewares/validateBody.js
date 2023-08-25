@@ -1,6 +1,6 @@
 const { HttpError } = require('../utils');
 
-exports.validateBody = (schema) => {
+const validateBody = (schema) => {
   const fn = (req, _, next) => {
     const { error } = schema.validate(req.body);
 
@@ -13,3 +13,5 @@ exports.validateBody = (schema) => {
 
   return fn;
 };
+
+module.exports = validateBody;

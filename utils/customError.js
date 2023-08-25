@@ -8,10 +8,12 @@ const errorMessageList = {
   409: 'Conflict',
 };
 
-exports.CustomError = (status, message = errorMessageList[status]) => {
+const CustomError = (status, message = errorMessageList[status]) => {
   const error = new Error(message);
 
   error.status = status;
 
   return error;
 };
+
+module.exports = CustomError;

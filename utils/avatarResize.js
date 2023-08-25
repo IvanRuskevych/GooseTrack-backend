@@ -1,6 +1,6 @@
 const Jimp = require('jimp');
 
-exports.avatarResize = async (path) => {
+const avatarResize = async (path) => {
   // Read the image.
   const image = await Jimp.read(path);
 
@@ -10,3 +10,5 @@ exports.avatarResize = async (path) => {
   // Save and overwrite the image
   await image.writeAsync(path);
 };
+
+module.exports = avatarResize
