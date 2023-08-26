@@ -6,7 +6,7 @@ const { User } = require('../models/user');
 
 const { customError, ctrlWrapper, sendEmail, CustomError } = require('../utils');
 
-const { SECRET_KEY, BASE_URL } = process.env;
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY, BASE_URL } = process.env;
 
 // Функція яка обробляє запит POST для реєстрації користувача.
 
@@ -20,8 +20,8 @@ const register = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  // verificationToken + verifyEmail for send email (SendGrid)
-  const verificationToken = uuid(); // for send email (SendGrid)
+  // verificationToken & verifyEmail for send email (SendGrid)
+  const verificationToken = uuid();
   const verifyEmail = {
     to: email,
     subject: 'Verify email',
@@ -55,21 +55,34 @@ const login = async (req, res) => {
     throw customError(401, 'Email or password wrong.');
   }
 
+  console.log('USER');
+  console.log(user.id);
   const userLogin = { email: user.email, subscription: user.subscription };
 
   const payload = {
     id: user.id,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
-  await User.findByIdAndUpdate(user._id, { token });
+  // const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '23h' }); Іван замінив на accessToken
+  // await User.findByIdAndUpdate(user._id, { token }); Іван замінив на accessToken
+
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '3m' });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
+
+  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
+
   res.json({
-    token,
+    // token, Іван замінив на accessToken
     user: userLogin,
+
+    accessToken,
+    refreshToken,
   });
 };
 
-// for send email (SendGrid)
+/*
+ * ==== for send email (SendGrid) ============================
+ */
 const verifyEmail = async (req, res) => {
   const { verificationToken } = req.params;
   const user = await User.findOne({ verificationToken });
@@ -83,7 +96,9 @@ const verifyEmail = async (req, res) => {
   res.status(200).json({ message: 'Verification successful' });
 };
 
-// for send email (SendGrid)
+/*
+ * ==== for send email (SendGrid) ============================
+ */
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -109,10 +124,38 @@ const resendVerifyEmail = async (req, res) => {
   });
 };
 
+/*
+ * ==== for refresh token ====================================
+ */
+const refresh = async (req, res) => {
+  const { refreshToken: token } = req.body;
+
+  const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
+  const isExist = await User.findOne({ refreshToken: token });
+
+  if (!isExist) throw CustomError(403, 'Token does not valid');
+
+  const payload = {
+    id,
+  };
+
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '23h' });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '23h' });
+
+  await User.findByIdAndUpdate(id, { accessToken, refreshToken });
+
+  res.status(200).json({
+    accessToken,
+    refreshToken,
+  });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
 
   verifyEmail: ctrlWrapper(verifyEmail),
   resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
+
+  refresh: ctrlWrapper(refresh),
 };
