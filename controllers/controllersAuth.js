@@ -133,27 +133,6 @@ const refresh = async (req, res) => {
   const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
   const isExist = await User.findOne({ refreshToken: token });
 
-
-// Функція для перевірки дійсності токена
-
-const current = async (req, res) => {
-    const { email, subscription } = req.user;
-
-    res.json({ email, subscription })
-}
-
-// Функція для розлогінення користувача
-
-const logout = async (req, res) => {
-    const { _id } = req.user;
-    await User.findByIdAndUpdate(_id, { token: "" });
-
-    res.status(204, "No content").json();
-}
-
-
-
-
   if (!isExist) throw CustomError(403, 'Token does not valid');
 
   const payload = {
@@ -174,14 +153,9 @@ const logout = async (req, res) => {
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
-      current: ctrlWrapper(current),
-    logout: ctrlWrapper(logout),
 
   verifyEmail: ctrlWrapper(verifyEmail),
   resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
 
-
   refresh: ctrlWrapper(refresh),
 };
-
-

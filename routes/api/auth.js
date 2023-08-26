@@ -2,9 +2,7 @@ const express = require('express');
 
 const ctrl = require('../../controllers/controllersAuth');
 
-
-const { validateBody, authenticate } = require("../../middlewares");
-
+const { validateBody } = require('../../middlewares');
 
 const { schemas } = require('../../models/user');
 const authenticate = require('../../middlewares/authenticate');
@@ -34,18 +32,7 @@ router.patch(
   updateUser
 );
 
-
-// Маршрут для перевірки дійсності токена
-
-router.get("/current", authenticate, ctrl.Current);
-
-// Маршрут для розлогінення користувача
-
-router.post("/logout", authenticate, ctrl.logout);
-
-
 // Маршрут для оновлення refreshToken
 router.post('/refresh', validateBody(schemas.schemaRefreshToken), ctrl.refresh);
-
 
 module.exports = router;
