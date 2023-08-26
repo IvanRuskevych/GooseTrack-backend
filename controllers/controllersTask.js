@@ -1,24 +1,21 @@
-const { Contact } = require("../../models/contact");
+const { Task } = require("../models/tasks");
 
 const getAll = async (req, res, next) => {
-  const { _id: owner } = req.user;
-
-  // console.log(req.qwery)
-
-  const { page = 1, limit = 10, favorite } = req.query;
-  const skip = (page - 1) * limit;
-  const query = { owner };
-
-  if (favorite !== undefined) {
-    query.favorite = favorite === "true";
-  }
-  const result = await Contact.find(query)
-    .skip(skip)
-    .limit(limit)
-    .populate("owner", "name email");
+  //   const { _id: owner } = req.user;
+  //   const result = await Task.find({ owner });
+  const result = await Task.find();
   res.json(result);
+};
+
+const add = async (req, res) => {
+  //   const { _id: owner } = req.user;
+  //   const result = await Task.create({ ...req.body, owner });
+  const result = await Task.create({ ...req.body });
+
+  res.status(201).json(result);
 };
 
 module.exports = {
   getAll,
+  add,
 };

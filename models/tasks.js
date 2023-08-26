@@ -1,9 +1,9 @@
 const { Schema, model } = require("mongoose");
 // const Joi = require("joi");
-const { handleMongooseError } = require("../helpers");
+const { handleMongooseError } = require("../middlewares");
 
-// timeRegexp =
-// dataRegexp =
+const timeRegexp = /^([01]\d|2[0-3]):[0-5]\d$/;
+const dateRegexp = /^\d{4}-\d{2}-\d{2}$/;
 
 const taskSchema = new Schema(
   {
@@ -14,12 +14,12 @@ const taskSchema = new Schema(
     start: {
       type: String,
       required: [true, "Start is required"],
-      //   match: timeRegexp,
+      match: timeRegexp,
     },
     end: {
       type: String,
       required: [true, "End is required"],
-      //   match: timeRegexp,
+      match: timeRegexp,
     },
     priority: {
       type: String,
@@ -30,7 +30,7 @@ const taskSchema = new Schema(
     date: {
       type: String,
       required: [true, "Date is required"],
-      //   match: dataRegexp,
+      match: dateRegexp,
     },
     category: {
       type: String,
@@ -41,7 +41,7 @@ const taskSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
-      required: [true, "User is required"],
+      // required: [true, "User is required"],
     },
   },
   { versionKey: false, timestamps: true }

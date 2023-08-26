@@ -4,14 +4,14 @@ const ctrl = require("../../controllers/controllersTask");
 
 router.get("/", ctrl.getAll);
 
-router.get("/:id", ctrl.getById);
+// router.get("/:id", ctrl.getById);
 
 router.post("/", ctrl.add);
 
-router.delete("/:id", ctrl.remove);
+// router.delete("/:id", ctrl.remove);
 
-router.put("/:id", ctrl.update);
+// router.put("/:id", ctrl.update);
 
-router.patch("/:id/category", ctrl.updateCategory);
+// router.patch("/:id/category", ctrl.updateCategory);
 
 module.exports = router;
