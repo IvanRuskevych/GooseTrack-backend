@@ -1,3 +1,4 @@
+
 const jwt = require('jsonwebtoken');
 
 const { CustomError } = require('../utils');
@@ -36,3 +37,4 @@ const authenticate = async (req, res, next) => {
 };
 
 module.exports = authenticate;
+

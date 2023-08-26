@@ -1,53 +1,41 @@
-// ПОЛУЧАЕМ ОТЗЫВЫ С БЕКЭНДА И ОТПРАВЛЯЕМ НА ФРОНТЕНД. ФРОНТЕНДУ НУЖНО ОТПРАВЛЯТЬ ОШИБКИ
-const express = require('express');
+// // СОЗДАЕМ СХЕМЫ ДЛЯ ПРОВЕРКИ ПРИ ПЕРЕДАЧИ ОБЬЕКТОВ (mongoDB-Mongoose)
 
-const reviewController = require('../../controllers/controllersReviews');
+// addSchema JOI схема на проверку того что приходит с фронтенда
+// bookSchema проверка того что сохраняется в базе. Проверка перед сохранением
 
-// добавить authenticate как сделают
-// const {validateBody, authenticate, isValidId} = require("../../middlewares/validateBody")
+const { Schema, model } = require('mongoose')
+const { handleMongooseError } = require('../utils')
 
-const { schemas } = require('../../models/review');
-const { validateBody } = require('../../middlewares');
+const Joi = require('joi')
 
-const router = express.Router();
+const reviewSchema = new Schema(
+  {
+    text: { type: String, required: true, maxlength: 250 }, // кол-во символов в отзыве 250
+    rating: { type: Number, required: true, min: 1, max: 5 }, // от 1 до 5 звезд оценку ставим
 
-// router.get('/',  authenticate, bookController.getAll )
+    owner: {
+      // строка для записи ид пользователя особая
+      type: Schema.Types.ObjectId,
+      // записываем с какой коллекции данный ид польз
+      ref: 'user',
+      required: true
+    }
+  },
+  { versionKey: false, timestamps: true }
+)
 
-// 1) получить отзывы всех пользователей GET /reviews
-router.get('/', reviewController.getAllReviews);
+reviewSchema.post('save', handleMongooseError)
 
-// 2) получить отзыв пользователя GET /reviews/own
-router.get(
-  '/:id',
-  //  isValidId,
-  //  authenticate,
-  reviewController.getUserReview
-);
+const addReviewSchema = Joi.object({
+  text: Joi.string().required().max(250),
+  rating: Joi.number().required().min(1).max(5)
+})
 
-// 3 ) Добавление отзыва.  POST /reviews/own
+const schemas = {
+  reviewSchema,
+  addReviewSchema
+}
+//   создаем модель
+const Review = model('review', reviewSchema)
 
-router.post(
-  '/',
-  //   authenticate,
-  validateBody(schemas.addReviewSchema),
-  reviewController.addReview
-);
-
-//  4) Редактирование своего отзыва пользователем PATCH /reviews/own
-
-// router.patch(
-//   '/:id',
-//   isValidId,
-// //   authenticate,
-//   validateBody(schemas.addReviewSchema),
-//   reviewController.updateReviewById
-// )
-
-//  5) Удаление отзыва пользователем
-
-// router.delete('/:id',
-// isValidId,
-// //  authenticate,
-//   reviewController.deleteReviewById)
-
-module.exports = router;
+module.exports = { Review, schemas }
