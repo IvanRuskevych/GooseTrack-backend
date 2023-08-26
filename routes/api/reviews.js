@@ -4,9 +4,10 @@ const express = require('express')
 const reviewController = require("../../controllers/controllersReviews")
 
 // добавить authenticate как сделают
-const {validateBody, authenticate, isValidId} = require("../../middlewares/validateBody")
+// const {validateBody, authenticate, isValidId} = require("../../middlewares/validateBody")
+const { validateBody } = require("../../middlewares/");
 
-const {schemas} = require("../../models/review")
+const { schemas } = require("../../models/review")
 
 const router = express.Router()
 
@@ -17,15 +18,15 @@ router.get('/', reviewController.getAllReviews)
 
 // 2) получить отзыв пользователя GET /reviews/own
 router.get('/:id',
-//  isValidId,
-//  authenticate,
+  //  isValidId,
+  //  authenticate,
   reviewController.getUserReview)
 
 // 3 ) Добавление отзыва.  POST /reviews/own
 
 router.post(
   '/',
-//   authenticate,
+  //   authenticate,
   validateBody(schemas.addReviewSchema),
   reviewController.addReview
 )

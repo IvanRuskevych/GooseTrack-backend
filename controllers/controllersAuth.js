@@ -55,9 +55,28 @@ const login = async (req, res) => {
     })
 }
 
+// Функція для перевірки дійсності токена
+
+const Current = async (req, res) => {
+    const { email, subscription } = req.user;
+
+    res.json({ email, subscription })
+}
+
+// Функція для розлогінення користувача
+
+const logout = async (req, res) => {
+    const { _id } = req.user;
+    await User.findByIdAndUpdate(_id, { token: "" });
+
+    res.status(204, "No content").json();
+}
+
 
 module.exports = {
     register: ctrlWrapper(register),
     login: ctrlWrapper(login),
+    Current: ctrlWrapper(Current),
+    logout: ctrlWrapper(logout),
 }
 
