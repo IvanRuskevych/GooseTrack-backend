@@ -150,9 +150,55 @@ const refresh = async (req, res) => {
   });
 };
 
+// Функція для перевірки дійсності токена
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    req.user = user;
+    next();
+  });
+};
+
+// Функція для розлогінення користувача
+
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
+
+  res.status(204, "No content").json();
+}
+
+// Функції для отримання інформації про користувача за допомогою токена
+
+const getUserInfo = async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.json(user);
+};
+
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  verifyToken: ctrlWrapper(verifyToken),
+  logout: ctrlWrapper(logout),
+  getUserInfo: ctrlWrapper(getUserInfo),
 
   verifyEmail: ctrlWrapper(verifyEmail),
   resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
