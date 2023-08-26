@@ -1,28 +1,24 @@
 // ПОЛУЧАЕМ ОТЗЫВЫ С БЕКЭНДА И ОТПРАВЛЯЕМ НА ФРОНТЕНД. ФРОНТЕНДУ НУЖНО ОТПРАВЛЯТЬ ОШИБКИ
-const express = require("express");
+const express = require('express');
 
-const reviewController = require("../../controllers/controllersReviews");
+const reviewController = require('../../controllers/controllersReviews');
 
 // добавить authenticate как сделают
-// const {
-//   validateBody,
-//   authenticate,
-//   isValidId,
-// } = require("../../middlewares/validateBody");
+// const {validateBody, authenticate, isValidId} = require("../../middlewares/validateBody")
 
-const { schemas } = require("../../models/review");
-const { validateBody } = require("../../middlewares");
+const { schemas } = require('../../models/review');
+const { validateBody } = require('../../middlewares');
 
 const router = express.Router();
 
 // router.get('/',  authenticate, bookController.getAll )
 
 // 1) получить отзывы всех пользователей GET /reviews
-router.get("/", reviewController.getAllReviews);
+router.get('/', reviewController.getAllReviews);
 
 // 2) получить отзыв пользователя GET /reviews/own
 router.get(
-  "/:id",
+  '/:id',
   //  isValidId,
   //  authenticate,
   reviewController.getUserReview
@@ -31,7 +27,7 @@ router.get(
 // 3 ) Добавление отзыва.  POST /reviews/own
 
 router.post(
-  "/",
+  '/',
   //   authenticate,
   validateBody(schemas.addReviewSchema),
   reviewController.addReview
