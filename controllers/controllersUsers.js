@@ -1,11 +1,9 @@
 const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs/promises');
-const Jimp = require('jimp');
-const { ctrlWrapper } = require('../utils');
+
+const { ctrlWrapper, avatarResize } = require('../utils');
 const { User } = require('../models/user');
-// const { nanoid } = require('nanoid');
 
 const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
 
@@ -25,44 +23,30 @@ const updateUser = async (req, res) => {
     }
   }
 
+  // якщо у req є file з аватаром, то завантажує зображення, змінює його розмір на 250x250 пікселів та зберігає його за тим самим шляхом
   if (req.file) {
-    const { path: tempUpload, originalname } = req.file;
-    const fileName = `${_id}_${originalname}`;
-    const resultUpload = path.join(avatarDir, fileName);
+    const { path: tmpUploadPath, originalname } = req.file;
 
-    Jimp.read(tempUpload)
-      .then((avatar) => {
-        return avatar
-          .resize(250, 250) // resize
-          .write(resultUpload); // save
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const uniqueFilename = `${_id}_${originalname}`;
+    const resultUploadPath = path.join(avatarDir, uniqueFilename);
+    const avatarURL = path.join('avatars', uniqueFilename);
 
-    await fs.unlink(tempUpload);
-    // console.log(fileName);
-    const avatarURL = path.join('avatars', fileName);
-    console.log(avatarURL);
+    await avatarResize(tmpUploadPath);
+
+    await fs.rename(tmpUploadPath, resultUploadPath);
+
     updatedUser = { ...updatedUser, avatarURL };
     await User.findByIdAndUpdate(_id, { avatarURL: avatarURL });
   }
-  console.log('body');
-  console.log(req.body);
-  console.log('');
-
-  console.log('updatedUser');
-  console.log(updatedUser);
-
+  // якщо аватару не було то оновлюю user
   await User.findByIdAndUpdate(_id, { ...updatedUser });
-  if (req.body.password) {
-    updatedUser = { ...updatedUser, password: req.body.password };
-  }
+
+  //   if (req.body.password) {
+  //     updatedUser = { ...updatedUser, password: req.body.password };
+  //   }
 
   res.status(200).json({
-    status: 'success',
-    code: 200,
-    data: { updatedUser },
+    user: updatedUser,
   });
 };
 
