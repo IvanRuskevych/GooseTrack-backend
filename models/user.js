@@ -67,12 +67,22 @@ const schemaRefreshToken = Joi.object({
   refreshToken: Joi.string().required(),
 });
 
+const updateUserSchema = Joi.object({
+  name: Joi.string().max(28),
+  email: Joi.string().pattern(emailRegexp),
+  password: Joi.string(),
+  // birthday: Joi.date().allow('').optional(),
+  // phone: Joi.string().max(20).allow('').optional(),
+  // skype: Joi.string().max(16).allow(''),
+});
+
 const schemas = {
   registerSchema,
   loginSchema,
 
   schemaEmail,
   schemaRefreshToken,
+  updateUserSchema,
 };
 
 const User = model('user', userSchema);

@@ -5,6 +5,9 @@ const ctrl = require('../../controllers/controllersAuth');
 const { validateBody } = require('../../middlewares');
 
 const { schemas } = require('../../models/user');
+const authenticate = require('../../middlewares/authenticate');
+const upload = require('../../middlewares/upload');
+const { updateUser } = require('../../controllers/controllersUsers');
 
 const router = express.Router();
 
@@ -21,8 +24,15 @@ router.post('/verify', validateBody(schemas.schemaEmail), ctrl.resendVerifyEmail
 
 router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
 
-// Маршрут для оновлення refreshToken
+router.patch(
+  '/user/:id',
+  authenticate,
+  upload.single('avatar'),
+  validateBody(schemas.updateUserSchema),
+  updateUser
+);
 
+// Маршрут для оновлення refreshToken
 router.post('/refresh', validateBody(schemas.schemaRefreshToken), ctrl.refresh);
 
 module.exports = router;

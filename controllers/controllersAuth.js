@@ -55,6 +55,8 @@ const login = async (req, res) => {
     throw customError(401, 'Email or password wrong.');
   }
 
+  console.log('USER');
+  console.log(user.id);
   const userLogin = { email: user.email, subscription: user.subscription };
 
   const payload = {
