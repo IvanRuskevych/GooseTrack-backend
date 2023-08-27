@@ -22,9 +22,21 @@ const userSchema = new Schema(
       minlength: 6,
       required: [true, 'Set password for user'],
     },
+    birthday: {
+      type: String,
+      default: null,
+    },
+    phone: {
+      type: String,
+      default: null,
+    },
+    skype: {
+      type: String,
+      default: null,
+    },
 
-    accessToken: String,
-    refreshToken: String,
+    accessToken: { type: String },
+    refreshToken: { type: String },
 
     // for SendGrid
     verify: {
