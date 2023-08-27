@@ -1,17 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const ctrl = require("../../controllers/controllersTask");
+const { schemas } = require("../../models/task");
 
-router.get("/", ctrl.getAll);
+const { validateBody, isValidId, authenticate } = require("../../middlewares");
 
-// router.get("/:id", ctrl.getById);
+router.get("/", authenticate, ctrl.getAll);
 
-router.post("/", ctrl.add);
+router.post("/", authenticate, validateBody(schemas.addTaskSchema), ctrl.add);
 
-// router.delete("/:id", ctrl.remove);
+router.delete("/:id", authenticate, isValidId, ctrl.deleteTask);
 
-// router.put("/:id", ctrl.update);
-
-// router.patch("/:id/category", ctrl.updateCategory);
+router.patch("/:id", authenticate, isValidId, ctrl.update);
 
 module.exports = router;

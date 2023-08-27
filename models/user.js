@@ -9,23 +9,34 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, 'Set name for user'],
     },
     email: {
       type: String,
       match: emailRegexp,
-      unique: true,
-      required: true,
+      unique: [true, 'Duplicated email'],
+      required: [true, 'Email is required'],
     },
     password: {
       type: String,
       minlength: 6,
-      required: true,
+      required: [true, 'Set password for user'],
+    },
+    birthday: {
+      type: String,
+      default: null,
+    },
+    phone: {
+      type: String,
+      default: null,
+    },
+    skype: {
+      type: String,
+      default: null,
     },
 
-    // token: { type: String, default: '',  }, Іван замінив на accessToken
-    accessToken: String,
-    refreshToken: String,
+    accessToken: { type: String },
+    refreshToken: { type: String },
 
     // for SendGrid
     verify: {
@@ -44,14 +55,29 @@ const userSchema = new Schema(
 userSchema.post('save', handleMongooseError);
 
 const registerSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(6).required(),
+  name: Joi.string().max(28).required().messages({
+    'any.required': 'Missing required <name> field',
+    'string.empty': 'Field <name> cannot be an empty string',
+  }),
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    'any.required': 'Missing required <email> field',
+    'string.empty': 'Field <email> cannot be an empty string',
+  }),
+  password: Joi.string().min(6).required().messages({
+    'any.required': 'Missing required <password> field',
+    'string.empty': 'Field <password> cannot be an empty string',
+  }),
 });
 
 const loginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(6).required(),
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    'any.required': 'Missing required <email> field',
+    'string.empty': 'Field <email> cannot be an empty string',
+  }),
+  password: Joi.string().min(6).required().messages({
+    'any.required': 'Missing required <password> field',
+    'string.empty': 'Field <password> cannot be an empty string',
+  }),
 });
 
 // for SendGrid
@@ -71,9 +97,9 @@ const updateUserSchema = Joi.object({
   name: Joi.string().max(28),
   email: Joi.string().pattern(emailRegexp),
   password: Joi.string(),
-  // birthday: Joi.date().allow('').optional(),
-  // phone: Joi.string().max(20).allow('').optional(),
-  // skype: Joi.string().max(16).allow(''),
+  birthday: Joi.date().allow('').optional(),
+  phone: Joi.string().max(20).allow('').optional(),
+  skype: Joi.string().max(16).allow(''),
 });
 
 const schemas = {
