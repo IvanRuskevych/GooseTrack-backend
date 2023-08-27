@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const uuid = require('uuid').v4;
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const uuid = require("uuid").v4;
 
-const { User } = require('../models/user');
+const { User } = require("../models/user");
 
-const { customError, ctrlWrapper, sendEmail, CustomError } = require('../utils');
+const { ctrlWrapper, sendEmail, CustomError } = require("../utils");
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY, BASE_URL } = process.env;
 
@@ -15,7 +15,7 @@ const register = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    throw customError(409, 'Email in use');
+    throw CustomError(409, "Email in use");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
@@ -24,13 +24,20 @@ const register = async (req, res) => {
   const verificationToken = uuid();
   const verifyEmail = {
     to: email,
-    subject: 'Verify email',
+    subject: "Verify email",
     html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click verify email</a>`,
   };
 
-  const newUser = await User.create({ ...req.body, password: hashPassword, verificationToken });
+  const newUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+    verificationToken,
+  });
 
-  const userRegister = { email: newUser.email, subscription: newUser.subscription };
+  const userRegister = {
+    email: newUser.email,
+    subscription: newUser.subscription,
+  };
 
   const object = { user: userRegister };
 
@@ -47,15 +54,15 @@ const login = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw customError(401, 'Email or password wrong.');
+    throw CustomError(401, "Email or password wrong.");
   }
 
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
-    throw customError(401, 'Email or password wrong.');
+    throw CustomError(401, "Email or password wrong.");
   }
 
-  console.log('USER');
+  console.log("USER");
   console.log(user.id);
   const userLogin = { email: user.email, subscription: user.subscription };
 
@@ -66,8 +73,10 @@ const login = async (req, res) => {
   // const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '23h' }); Іван замінив на accessToken
   // await User.findByIdAndUpdate(user._id, { token }); Іван замінив на accessToken
 
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '3m' });
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "3m" });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
 
   await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
@@ -88,12 +97,15 @@ const verifyEmail = async (req, res) => {
   const user = await User.findOne({ verificationToken });
 
   if (!user) {
-    throw CustomError(404, 'User not found');
+    throw CustomError(404, "User not found");
   }
 
-  await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: null });
+  await User.findByIdAndUpdate(user._id, {
+    verify: true,
+    verificationToken: null,
+  });
 
-  res.status(200).json({ message: 'Verification successful' });
+  res.status(200).json({ message: "Verification successful" });
 };
 
 /*
@@ -104,23 +116,23 @@ const resendVerifyEmail = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw CustomError(401, 'Email or password is wrong');
+    throw CustomError(401, "Email or password is wrong");
   }
 
   if (user.verify) {
-    throw CustomError(400, 'Verification has already been passed');
+    throw CustomError(400, "Verification has already been passed");
   }
 
   const verifyEmail = {
     to: email,
-    subject: 'Verify email',
+    subject: "Verify email",
     html: `<a target="_blank" href="${BASE_URL}/users/verify/${user.verificationToken}">Click verify email</a>`,
   };
 
   await sendEmail(verifyEmail);
 
   res.status(200).json({
-    message: 'Verification email sent',
+    message: "Verification email sent",
   });
 };
 
@@ -133,14 +145,16 @@ const refresh = async (req, res) => {
   const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
   const isExist = await User.findOne({ refreshToken: token });
 
-  if (!isExist) throw CustomError(403, 'Token does not valid');
+  if (!isExist) throw CustomError(403, "Token does not valid");
 
   const payload = {
     id,
   };
 
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '23h' });
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '23h' });
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "7d" });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
 
   await User.findByIdAndUpdate(id, { accessToken, refreshToken });
 
