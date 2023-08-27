@@ -10,8 +10,8 @@ const Joi = require('joi')
 
 const reviewSchema = new Schema(
   {
-    text: { type: String, required: true, maxlength: 250 }, // кол-во символов в отзыве 250
-    rating: { type: Number, required: true, min: 1, max: 5 }, // от 1 до 5 звезд оценку ставим
+    text: { type: String, default: '', required: true, maxlength: 250 }, // кол-во символов в отзыве 250
+    rating: { type: Number,  default: 0, required: true, min: 1, max: 5 }, // от 1 до 5 звезд оценку ставим
 
     owner: {
       // строка для записи ид пользователя особая

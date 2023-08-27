@@ -7,11 +7,11 @@ const reviewController = require('../../controllers/controllersReviews');
 // const {validateBody, authenticate, isValidId} = require("../../middlewares/validateBody")
 
 const { schemas } = require('../../models/review');
-const { validateBody } = require('../../middlewares');
+const {  validateBody, authenticate, isValidId  } = require('../../middlewares');
 
 const router = express.Router();
 
-// router.get('/',  authenticate, bookController.getAll )
+
 
 // 1) получить отзывы всех пользователей GET /reviews
 router.get('/', reviewController.getAllReviews);
@@ -19,8 +19,8 @@ router.get('/', reviewController.getAllReviews);
 // 2) получить отзыв пользователя GET /reviews/own
 router.get(
   '/:id',
-  //  isValidId,
-  //  authenticate,
+   isValidId,
+   authenticate,
   reviewController.getUserReview
 );
 
@@ -28,26 +28,26 @@ router.get(
 
 router.post(
   '/',
-  //   authenticate,
+    authenticate,
   validateBody(schemas.addReviewSchema),
   reviewController.addReview
 );
 
 //  4) Редактирование своего отзыва пользователем PATCH /reviews/own
 
-// router.patch(
-//   '/:id',
-//   isValidId,
-// //   authenticate,
-//   validateBody(schemas.addReviewSchema),
-//   reviewController.updateReviewById
-// )
+router.patch(
+  '/:id',
+  isValidId,
+  authenticate,
+  validateBody(schemas.addReviewSchema),
+  reviewController.updateReviewById
+)
 
 //  5) Удаление отзыва пользователем
 
-// router.delete('/:id',
-// isValidId,
-// //  authenticate,
-//   reviewController.deleteReviewById)
+router.delete('/:id',
+isValidId,
+ authenticate,
+reviewController.deleteReviewById)
 
 module.exports = router;
