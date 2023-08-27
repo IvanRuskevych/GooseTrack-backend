@@ -4,12 +4,12 @@ const validateBody = require('./validateBody');
 const handleMongooseError = require('./handleMongooseError');
 const authenticate = require('./authenticate');
 
-const uplod = require('./upload');
+const upload = require('./upload');
 
 module.exports = {
   isValidId,
   validateBody,
-  uplod,
+  upload,
   handleMongooseError,
   authenticate,
 };
