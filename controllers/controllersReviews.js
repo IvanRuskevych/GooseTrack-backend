@@ -116,22 +116,22 @@ const deleteReviewById = async (req, res) => {
 }
 
 // 7) Получение всех отзывов юзера по ИД owner 
-const getAllReviewsOwn = async (req, res) => {
-  const { _id: owner } = req.user
-  const { page = 1, limit = 10 } = req.query
-  if (page <= 0) {
-    return res.status(400).json({ message: 'Invalid page number' })
-  }
+// const getAllReviewsOwn = async (req, res) => {
+//   const { _id: owner } = req.user
+//   const { page = 1, limit = 10 } = req.query
+//   if (page <= 0) {
+//     return res.status(400).json({ message: 'Invalid page number' })
+//   }
 
-  const skip = (page - 1) * limit
+//   const skip = (page - 1) * limit
 
-  const reviews = await Review.find({ owner }, '-createdAt -updatedAt', {
-    skip,
-    limit
-  }).populate('owner', 'name avatarURL')
+//   const reviews = await Review.find({ owner }, '-createdAt -updatedAt', {
+//     skip,
+//     limit
+//   }).populate('owner', 'name avatarURL')
 
-  res.json(reviews)
-}
+//   res.json(reviews)
+// }
 
 // 8) 
 
@@ -141,5 +141,5 @@ module.exports = {
   addReview: ctrlWrapper(addReview),
   deleteReviewById: ctrlWrapper(deleteReviewById),
   updateReviewById: ctrlWrapper(updateReviewById),
-  getAllReviewsOwn: ctrlWrapper(getAllReviewsOwn)
+
 }
