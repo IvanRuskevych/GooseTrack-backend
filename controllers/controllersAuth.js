@@ -14,7 +14,7 @@ const { CustomError, ctrlWrapper, avatarResize, sendEmail } = require('../utils'
 const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
 
 const register = async (req, res) => {
-  const { password, email } = req.body;
+  const { password, email, name } = req.body;
   const user = await User.findOne({ email });
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -42,6 +42,7 @@ const register = async (req, res) => {
 
   res.status(201).json({
     user: {
+      name,
       email: newUser.email,
       // subscription: newUser.subscription,
     },

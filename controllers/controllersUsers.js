@@ -17,9 +17,8 @@ const updateUser = async (req, res) => {
   if (req.body) {
     // console.log('req.body 001 ===>>', req.body);
     if (req.body.password) {
-      // const hashPassword = await bcrypt.hash(req.body.password, 10);
-      await bcrypt.hash(req.body.password, 10);
-      updatedUser = { ...req.body };
+      const hashPassword = await bcrypt.hash(req.body.password, 10);
+      updatedUser = { ...req.body, password: hashPassword };
     } else {
       updatedUser = { ...req.body };
     }
