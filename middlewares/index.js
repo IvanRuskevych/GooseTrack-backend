@@ -1,14 +1,15 @@
-const isValidId = require("./isValidId");
+const isValidId = require('./isValidId');
 
-const validateBody = require("./validateBody");
+const validateBody = require('./validateBody');
+const handleMongooseError = require('./handleMongooseError');
+const authenticate = require('./authenticate');
 
-const uplod = require("./upload");
-
-const authenticate = require("./authenticate");
+const upload = require('./upload');
 
 module.exports = {
   isValidId,
   validateBody,
-  uplod,
+  upload,
+  handleMongooseError,
   authenticate,
 };

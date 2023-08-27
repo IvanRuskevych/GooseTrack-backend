@@ -8,13 +8,13 @@ const { User } = require('../models/user');
 const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
 
 const updateUser = async (req, res) => {
-  console.log('update');
-  console.log(req.user);
+  console.log('updateUser===>>>', req.user.id);
 
-  const { _id } = req.user;
+  const { id } = req.user;
   let updatedUser = {};
 
   if (req.body) {
+    // console.log('req.body 001 ===>>', req.body);
     if (req.body.password) {
       const hashPassword = await bcrypt.hash(req.body.password, 10);
       updatedUser = { ...req.body, password: hashPassword };
@@ -27,7 +27,7 @@ const updateUser = async (req, res) => {
   if (req.file) {
     const { path: tmpUploadPath, originalname } = req.file;
 
-    const uniqueFilename = `${_id}_${originalname}`;
+    const uniqueFilename = `${id}_${originalname}`;
     const resultUploadPath = path.join(avatarDir, uniqueFilename);
     const avatarURL = path.join('avatars', uniqueFilename);
 
@@ -36,14 +36,20 @@ const updateUser = async (req, res) => {
     await fs.rename(tmpUploadPath, resultUploadPath);
 
     updatedUser = { ...updatedUser, avatarURL };
-    await User.findByIdAndUpdate(_id, { avatarURL: avatarURL });
+
+    // console.log('updateUser 002===>>>', updatedUser);
+    // console.log('id 002====>>>', id);
+
+    await User.findByIdAndUpdate(id, { avatarURL: avatarURL });
   }
   // якщо аватару не було то оновлюю user
-  await User.findByIdAndUpdate(_id, { ...updatedUser });
+  console.log('updateUser 003===>>>', updatedUser);
 
-  //   if (req.body.password) {
-  //     updatedUser = { ...updatedUser, password: req.body.password };
-  //   }
+  await User.findByIdAndUpdate(id, { ...updatedUser });
+
+  // const qwe = await User.findById(id);
+
+  // console.log('qwe', qwe);
 
   res.status(200).json({
     user: updatedUser,
