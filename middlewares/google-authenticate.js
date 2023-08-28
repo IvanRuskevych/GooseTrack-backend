@@ -25,12 +25,15 @@ const googleCallback = async (req, accessToken, refreshToken, profile, done) => 
     }
 
     const hashedPassword = await bcrypt.hash(uuid(), 10); // user ніколи не використовує, але він є згідно з нашою схемою реєстрації
-    const newUser = await User.create({
-      email,
-      password: hashedPassword,
-      name: displayName,
-      verificationToken,
-    });
+    const newUser = await User.create(
+      {
+        email,
+        password: hashedPassword,
+        name: displayName,
+        verificationToken,
+      },
+      { new: true }
+    );
     return done(null, newUser);
   } catch (error) {
     done(error, false); // перекидає на обробник помилок
