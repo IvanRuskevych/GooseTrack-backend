@@ -125,7 +125,9 @@ const updateUser = async (req, res) => {
   }
 
   await User.findByIdAndUpdate(id, { ...updatedUser }, { new: true });
-  console.log('Updated user in database:', updatedUser);
+
+  // console.log('Updated user in database:', updatedUser);
+
   res.status(200).json({
     user: { ...updatedUser, password: '' },
   });
