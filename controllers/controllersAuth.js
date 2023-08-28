@@ -38,6 +38,18 @@ const register = async (req, res) => {
     subject: 'Verify email',
     html: `<a target="_blank" href="${BASE_URL}/auth/verify/${verificationToken}">Click verify email</a>`,
   };
+  // const verifyEmail = {
+  //   to: email,
+  //   subject: 'Verify email',
+  //   html: (
+  //     <a
+  //       target="_blank"
+  //       href="https://goosetrack-tj84.onrender.com/auth/verify/${verificationToken}"
+  //     >
+  //       Click to verify your email
+  //     </a>
+  //   ),
+  // };
 
   sendEmail(verifyEmail);
 
@@ -63,7 +75,7 @@ const verifyEmail = async (req, res) => {
     verificationToken: null,
   });
 
-  res.status(200).json({ message: 'Verification successful' });
+  res.status(200).json({ message: 'Verification successful' }); // Матвій як ми маємо перекинути user далі після успішної
 };
 
 const resendVerifyEmail = async (req, res) => {
