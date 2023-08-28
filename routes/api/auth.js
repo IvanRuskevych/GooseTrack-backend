@@ -2,9 +2,22 @@ const express = require('express');
 const router = express.Router();
 
 const { schemas } = require('../../models/user');
-const { validateBody, authenticate, upload } = require('../../middlewares');
+const { validateBody, authenticate, upload, passport } = require('../../middlewares');
 const ctrll = require('../../controllers/controllersAuth');
 const { updateUser } = require('../../controllers/controllersUsers');
+
+/**
+ * Google Sign-up
+ */
+// якщо запит прийшов на адресу "/google", то застосовуй стратегію "google"
+//  scope - налаштування яке вказує що потрібно повернути з google
+router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false }),
+  ctrll.googleAuth
+);
 
 /**
  * Sign-up
