@@ -63,7 +63,7 @@ const verifyEmail = async (req, res) => {
     verificationToken: null,
   });
 
-  res.status(200).json({ message: 'Verification successful' });
+  res.status(200).json({ message: 'Verification successful' }); // Матвій як ми маємо перекинути user далі після успішної
 };
 
 const resendVerifyEmail = async (req, res) => {
