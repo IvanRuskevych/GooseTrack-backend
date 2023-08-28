@@ -2,8 +2,8 @@
   "openapi": "3.0.1",
   "info": {
     "version": "2.0.3",
-    "title": "Githack Swagger API",
-    "description": "Showing off swagger-ui-express",
+    "title": "GooseTrack Swagger API",
+    "description": "Showing swagger-ui-express",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -12,8 +12,8 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "https://githack-goosetrack.onrender.com" },
-    { "url": "http://localhost:3000" }
+    { "url": "https://goosetrack-tj84.onrender.com" },
+    { "url": "http://localhost:8080" }
   ],
   "tags": [
     {
@@ -30,6 +30,41 @@
     }
   ],
   "paths": {
+    "/api/users/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
     "/api/users/current": {
       "get": {
         "tags": ["Auth"],
@@ -114,41 +149,7 @@
         }
       }
     },
-    "/api/users/register": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "User registration",
-        "parameters": [],
-        "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Registration's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Provided email already exists",
-            "content": {}
-          }
-        }
-      }
-    },
+
     "/api/users/user": {
       "patch": {
         "tags": ["Auth"],
