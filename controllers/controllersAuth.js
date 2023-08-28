@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
 const path = require('path');
 const fs = require('fs').promises;
-// const { v4: uuidv4 } = require('uuid');
 const uuid = require('uuid').v4;
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY, BASE_URL, FRONTEND_URL } = process.env;
@@ -11,6 +10,7 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY, BASE_URL, FRONTEND_URL } = proces
 const { User } = require('../models/user');
 
 const { CustomError, ctrlWrapper, avatarResize, sendEmail } = require('../utils');
+const { createTokens } = require('../services/servicesToken');
 
 const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
 
@@ -38,26 +38,21 @@ const register = async (req, res) => {
     subject: 'Verify email',
     html: `<a target="_blank" href="${BASE_URL}/auth/verify/${verificationToken}">Click verify email</a>`,
   };
-  // const verifyEmail = {
-  //   to: email,
-  //   subject: 'Verify email',
-  //   html: (
-  //     <a
-  //       target="_blank"
-  //       href="https://goosetrack-tj84.onrender.com/auth/verify/${verificationToken}"
-  //     >
-  //       Click to verify your email
-  //     </a>
-  //   ),
-  // };
 
   sendEmail(verifyEmail);
 
+  const payload = {
+    id: newUser._id,
+  };
+
+  const { accessToken, refreshToken } = createTokens(payload);
+
   res.status(201).json({
+    accessToken,
+    refreshToken,
     user: {
       name,
       email: newUser.email,
-      // subscription: newUser.subscription,
     },
   });
 };
@@ -127,10 +122,12 @@ const login = async (req, res) => {
     id: user._id,
   };
 
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' });
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
-    expiresIn: '7d',
-  });
+  // const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' });
+  // const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+  //   expiresIn: '7d',
+  // });
+
+  const { accessToken, refreshToken } = createTokens(payload);
 
   await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
@@ -146,12 +143,14 @@ const login = async (req, res) => {
 
 const googleAuth = async (req, res) => {
   const { _id: id } = req.user;
+
   const payload = {
     id,
   };
 
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' });
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
+  const { accessToken, refreshToken } = createTokens(payload);
+  // const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' });
+  // const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
 
   await User.findByIdAndUpdate(id, { accessToken, refreshToken, verificationToken: null });
 
@@ -175,20 +174,18 @@ const refresh = async (req, res) => {
     id,
   };
 
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' }); // 23h
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
-    expiresIn: '7d',
-  }); // 23h
+  const { accessToken, refreshToken } = createTokens(payload);
+
+  // const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' }); // 23h
+  // const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+  //   expiresIn: '7d',
+  // }); // 23h
 
   await User.findByIdAndUpdate(id, { accessToken, refreshToken });
 
   res.status(200).json({
     accessToken,
     refreshToken,
-    // user: {
-    //   email: user.email,
-    //   subscription: user.subscription,
-    // },
   });
 };
 
@@ -204,9 +201,9 @@ const logout = async (req, res) => {
 };
 
 const current = async (req, res) => {
-  const { email, subscription } = req.user;
+  const { name, email, birthday, phone, skype, avatarURL } = req.user;
 
-  res.status(200).json({ email, subscription });
+  res.status(200).json({ name, email, birthday, phone, skype, avatarURL });
 };
 
 const updateAvatar = async (req, res) => {
