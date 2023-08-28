@@ -86,9 +86,10 @@ const resendVerifyEmail = async (req, res) => {
 
   await sendEmail(verifyEmail);
 
-  res.status(200).json({
-    message: 'Verification email sent',
-  });
+  // res.status(200).json({
+  //   message: 'Verification email sent',
+  // });
+  res.status(200).redirect(FRONTEND_URL);
 };
 
 const login = async (req, res) => {
