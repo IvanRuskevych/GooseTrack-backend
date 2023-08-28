@@ -34,6 +34,7 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    avatarURL: { type: String },
 
     accessToken: { type: String },
     refreshToken: { type: String },
