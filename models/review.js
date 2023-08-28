@@ -1,7 +1,6 @@
-// // СОЗДАЕМ СХЕМЫ ДЛЯ ПРОВЕРКИ ПРИ ПЕРЕДАЧИ ОБЬЕКТОВ (mongoDB-Mongoose)
+// СХЕМЫ ДЛЯ ПРОВЕРКИ ПРИ ПЕРЕДАЧИ ОБЬЕКТОВ (mongoDB-Mongoose)
 
-// addSchema JOI схема на проверку того что приходит с фронтенда
-// bookSchema проверка того что сохраняется в базе. Проверка перед сохранением
+// reviewSchema проверка того что сохраняется в базе. Проверка перед сохранением
 
 const { Schema, model } = require('mongoose')
 const { handleMongooseError } = require('../utils')
@@ -11,10 +10,10 @@ const Joi = require('joi')
 const reviewSchema = new Schema(
   {
     text: { type: String, default: '', required: true, maxlength: 250 }, // кол-во символов в отзыве 250
-    rating: { type: Number,  default: 0, required: true, min: 1, max: 5 }, // от 1 до 5 звезд оценку ставим
+    rating: { type: Number, default: 0, required: true, min: 1, max: 5 }, // от 1 до 5 звезд оценку ставим
 
     owner: {
-      // строка для записи ид пользователя особая
+      // строка для записи ид пользователя
       type: Schema.Types.ObjectId,
       // записываем с какой коллекции данный ид польз
       ref: 'user',
@@ -25,7 +24,7 @@ const reviewSchema = new Schema(
 )
 
 reviewSchema.post('save', handleMongooseError)
-
+// addReviewSchema JOI схема на проверку того что приходит с фронтенда
 const addReviewSchema = Joi.object({
   text: Joi.string().required().max(250),
   rating: Joi.number().required().min(1).max(5)

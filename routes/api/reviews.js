@@ -1,37 +1,27 @@
-// ПОЛУЧАЕМ ОТЗЫВЫ С БЕКЭНДА И ОТПРАВЛЯЕМ НА ФРОНТЕНД. ФРОНТЕНДУ НУЖНО ОТПРАВЛЯТЬ ОШИБКИ
-const express = require('express');
+// ПОЛУЧАЕМ ОТЗЫВЫ С БЕКЭНДА И ОТПРАВЛЯЕМ НА ФРОНТЕНД.
+const express = require('express')
 
-const reviewController = require('../../controllers/controllersReviews');
+const reviewController = require('../../controllers/controllersReviews')
 
-// добавить authenticate как сделают
-// const {validateBody, authenticate, isValidId} = require("../../middlewares/validateBody")
+const { schemas } = require('../../models/review')
+const { validateBody, authenticate, isValidId } = require('../../middlewares')
 
-const { schemas } = require('../../models/review');
-const {  validateBody, authenticate, isValidId  } = require('../../middlewares');
-
-const router = express.Router();
-
-
+const router = express.Router()
 
 // 1) получить отзывы всех пользователей GET /reviews
-router.get('/', reviewController.getAllReviews);
+router.get('/', reviewController.getAllReviews)
 
 // 2) получить отзыв пользователя GET /reviews/own
-router.get(
-  '/:id',
-   isValidId,
-   authenticate,
-  reviewController.getUserReview
-);
+router.get('/:id', isValidId, authenticate, reviewController.getUserReview)
 
 // 3 ) Добавление отзыва.  POST /reviews/own
 
 router.post(
   '/',
-    authenticate,
+  authenticate,
   validateBody(schemas.addReviewSchema),
   reviewController.addReview
-);
+)
 
 //  4) Редактирование своего отзыва пользователем PATCH /reviews/own
 
@@ -45,9 +35,11 @@ router.patch(
 
 //  5) Удаление отзыва пользователем
 
-router.delete('/:id',
-isValidId,
- authenticate,
-reviewController.deleteReviewById)
+router.delete(
+  '/:id',
+  isValidId,
+  authenticate,
+  reviewController.deleteReviewById
+)
 
-module.exports = router;
+module.exports = router
