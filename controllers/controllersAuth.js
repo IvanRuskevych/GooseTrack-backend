@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const uuid = require('uuid').v4;
 
-const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY, BASE_URL, FRONTEND_URL } = process.env;
+const { REFRESH_SECRET_KEY, BASE_URL, FRONTEND_URL } = process.env;
 
 const { User } = require('../models/user');
 
@@ -196,10 +196,7 @@ const logout = async (req, res) => {
 
   await User.findByIdAndUpdate(_id, { accessToken: '', refreshToken: '' });
 
-  // res.status(204).json();
-  res.json({
-    msg: 'Logout success',
-  });
+  res.status(204).json();
 };
 
 const current = async (req, res) => {

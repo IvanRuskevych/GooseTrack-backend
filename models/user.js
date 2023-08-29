@@ -5,7 +5,7 @@ const { handleMongooseError } = require('../utils');
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-// решулярка на пароль
+// регулярка на пароль
 
 const userSchema = new Schema(
   {

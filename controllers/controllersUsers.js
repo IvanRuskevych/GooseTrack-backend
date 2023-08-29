@@ -77,7 +77,7 @@ const bcrypt = require('bcrypt');
 const { v2: cloudinary } = require('cloudinary');
 require('dotenv').config();
 
-const { ctrlWrapper } = require('../utils');
+const { ctrlWrapper, CustomError } = require('../utils');
 const { User } = require('../models/user');
 
 // Настройка Cloudinary
@@ -88,7 +88,12 @@ cloudinary.config({
 });
 
 const updateUser = async (req, res) => {
-  console.log('updateUser===>>>', req.user.id);
+  // const isUserExsists = await User.findOne({ _id: req.params.id });
+  // console.log('isUserExsists--->>', isUserExsists);
+
+  // if (!isUserExsists) {
+  //   throw CustomError(404, 'User not found');
+  // }
 
   const { id } = req.user;
 
