@@ -720,6 +720,8 @@
       }
     }
   },
+
+# ==================================================================================
   "components": {
     "schemas": {
       "CurrentUserResponse": {
@@ -739,34 +741,38 @@
           "avatarURL": "//www.gravatar.com/avatar/ba191e990b11d8be00bd2c43d88b8ab5"
         }
       },
+      # ==================================================================================
       "RegistrationResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "accessToken": {
-              "type": "string",
-              "description": "Access Token",
-              "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
-            },
-            "refreshToken": {
-              "type": "string",
-              "description": "Refrash Token",
-              "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
-            },
-            "name": {
-              "type": "string",
-              "description": "User's name",
-              "format": "name"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Access Token",
+            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refrash Token",
+            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "format": "name"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
             }
           }
         }
       },
+      # ==================================================================================
       "RegistrationRequest": {
         "type": "object",
         "properties": {
@@ -797,6 +803,7 @@
           "password": "Password12345$"
         }
       },
+      # ==================================================================================
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
@@ -834,6 +841,7 @@
           "birthday": "01.01.2021"
         }
       },
+      # ==================================================================================
       "UpdateUserResponse": {
         "type": "object",
         "items": {
@@ -876,6 +884,7 @@
           }
         }
       },
+      # ==================================================================================
       "LoginRequest": {
         "type": "object",
         "properties": {
@@ -899,6 +908,7 @@
           "password": "Password12345$"
         }
       },
+      # ==================================================================================
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -909,13 +919,26 @@
           "refreshToken": {
             "type": "string",
             "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email"
+              }
+            }
           }
         },
         "example": {
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82",
-          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82",
+          "user": {
+            "email": "email@example.com"
+          }
         }
       },
+      # ==================================================================================
       "LogoutRequest": {
         "type": "object",
         "properties": {
@@ -932,6 +955,7 @@
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
       },
+      # ==================================================================================
       "LogoutResponse": {
         "type": "object",
         "items": {
@@ -947,6 +971,7 @@
           "message": "Successful logout"
         }
       },
+      # ==================================================================================
       "GetTasksResponse": {
         "type": "object",
         "properties": {
@@ -968,6 +993,7 @@
           }
         }
       },
+      # ==================================================================================
       "CreateTaskRequest": {
         "type": "object",
         "required": [
@@ -1011,6 +1037,7 @@
           }
         }
       },
+      # ==================================================================================
       "CreateTaskResponse": {
         "type": "object",
         "properties": {
@@ -1024,6 +1051,7 @@
           }
         }
       },
+      # ==================================================================================
       "GetDeletePatchTaskResponse": {
         "type": "object",
         "properties": {
@@ -1037,6 +1065,7 @@
           }
         }
       },
+      # ==================================================================================
       "NewTask": {
         "type": "object",
         "properties": {
@@ -1082,6 +1111,7 @@
           }
         }
       },
+      # ==================================================================================
       "PatchCategoryTaskRequest": {
         "type": "object",
         "properties": {
@@ -1092,6 +1122,7 @@
           }
         }
       },
+      # ==================================================================================
       "OwnerReview": {
         "type": "object",
         "properties": {
@@ -1112,6 +1143,7 @@
           }
         }
       },
+      # ==================================================================================
       "ReviewResponse": {
         "type": "array",
         "items": {
@@ -1140,6 +1172,7 @@
           }
         }
       },
+      # ==================================================================================
       "DeleteReviewResponse": {
         "type": "object",
         "properties": {
@@ -1150,6 +1183,7 @@
           }
         }
       },
+      # ==================================================================================
       "GetAllReviewsResponse": {
         "type": "array",
         "items": {
@@ -1176,6 +1210,7 @@
           }
         }
       },
+      # ==================================================================================
       "CreateReviewRequest": {
         "type": "object",
         "required": [
@@ -1196,6 +1231,7 @@
         }
       }
     },
+    # ==================================================================================
     "securitySchemes": {
       "Bearer": {
         "type": "http",
