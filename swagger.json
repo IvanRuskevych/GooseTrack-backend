@@ -1,19 +1,26 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "2.0.3",
+    "version": "1.0.1",
     "title": "GooseTrack Swagger API",
-    "description": "Showing swagger-ui-express",
+    "description": "swagger-ui-express",
     "license": {
-      "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "servers": [
-    { "url": "https://goosetrack-tj84.onrender.com" },
-    { "url": "http://localhost:8080" }
+    {
+      "url": "https://goosetrack-tj84.onrender.com"
+    },
+    {
+      "url": "http://localhost:8080"
+    }
   ],
   "tags": [
     {
@@ -30,12 +37,18 @@
     }
   ],
   "paths": {
-    "/api/users/register": {
+    "/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User registration",
-        "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "parameters": null,
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -59,43 +72,19 @@
             }
           },
           "409": {
-            "description": "Provided email already exists",
+            "description": "Email in use",
             "content": {}
           }
         }
       }
     },
-    "/api/users/current": {
-      "get": {
-        "tags": ["Auth"],
-        "summary": "Get current user info",
-        "parameters": [],
-        "security": [{ "Bearer": [] }],
-
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CurrentUserResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized (provide valid token)",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/users/login": {
+    "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User login",
         "parameters": [],
-
         "requestBody": {
           "description": "Login's object",
           "required": true,
@@ -108,7 +97,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -119,18 +108,24 @@
             }
           },
           "401": {
-            "description": "Email or password invalid",
+            "description": "Email or password is wrong",
             "content": {}
           }
         }
       }
     },
-    "/api/users/logout": {
+    "/auth/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User logout",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "204": {
             "description": "Successful operation",
@@ -143,19 +138,54 @@
             }
           },
           "401": {
-            "description": "Unauthorized (provide valid token)",
+            "description": "Not authorized",
             "content": {}
           }
         }
       }
     },
-
-    "/api/users/user": {
+    "/auth/current": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current user info",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/user/:id": {
       "patch": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User updateInfo",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "UserUpdate's object",
           "required": true,
@@ -178,6 +208,10 @@
               }
             }
           },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
           "404": {
             "description": "User not found",
             "content": {}
@@ -187,7 +221,9 @@
     },
     "/api/tasks": {
       "get": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Get all tasks",
         "parameters": [
           {
@@ -205,7 +241,11 @@
             "description": "Any date of the month for which tasks must be returned. Format: YYYY-MM-DD"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -228,10 +268,16 @@
         }
       },
       "post": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Create task",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Tasks's object",
           "required": true,
@@ -267,7 +313,9 @@
     },
     "/api/tasks/:id": {
       "get": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Get task by ID",
         "parameters": [
           {
@@ -278,7 +326,11 @@
             "description": "Task id"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -301,7 +353,9 @@
         }
       },
       "put": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Change tasks",
         "parameters": [
           {
@@ -312,7 +366,11 @@
             "description": "Task id"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Tasks's object",
           "required": true,
@@ -346,7 +404,9 @@
         }
       },
       "delete": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Delete task",
         "parameters": [
           {
@@ -357,7 +417,11 @@
             "description": "Task id"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -382,7 +446,9 @@
     },
     "/api/tasks/:id/category": {
       "patch": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Change Category Task",
         "parameters": [
           {
@@ -393,7 +459,11 @@
             "description": "Task id"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Tasks's object",
           "required": true,
@@ -429,7 +499,9 @@
     },
     "/api/reviews": {
       "get": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Get all reviews all users",
         "parameters": [
           {
@@ -447,7 +519,6 @@
             "description": "Count reviews in response"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -472,7 +543,9 @@
     },
     "/api/reviews/my-reviews": {
       "get": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Get all reviews",
         "parameters": [
           {
@@ -490,7 +563,11 @@
             "description": "Count reviews in response"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -513,10 +590,16 @@
         }
       },
       "post": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Create review",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Tasks's object",
           "required": true,
@@ -552,7 +635,9 @@
     },
     "/api/reviews/my-reviews/:id": {
       "get": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Get reviews by ID",
         "parameters": [
           {
@@ -563,7 +648,11 @@
             "description": "Reviews id"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -586,7 +675,9 @@
         }
       },
       "put": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Change review",
         "parameters": [
           {
@@ -597,7 +688,11 @@
             "description": "Review id"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Review's object",
           "required": true,
@@ -631,18 +726,22 @@
         }
       },
       "delete": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Review task",
-        "parameters": [
+        "parameters": {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "Review id"
+        },
+        "security": [
           {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "string",
-            "description": "Review id"
+            "Bearer": []
           }
         ],
-        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -670,15 +769,19 @@
     "schemas": {
       "CurrentUserResponse": {
         "type": "object",
-
         "properties": {
-          "token": {
+          "accessToken": {
             "type": "string",
-            "description": "User's token"
+            "description": "User's accessToken"
           }
         },
         "example": {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
+          "name": "Ivan12345",
+          "email": "irusdeutsch@gmail.com",
+          "birthday": "01.01.2001",
+          "phone": "+380 102030405",
+          "skype": "User skype nickname",
+          "avatarURL": "//www.gravatar.com/avatar/ba191e990b11d8be00bd2c43d88b8ab5"
         }
       },
       "RegistrationResponse": {
@@ -686,14 +789,28 @@
         "items": {
           "type": "object",
           "properties": {
+            "accessToken": {
+              "type": "string",
+              "description": "Access Token",
+              "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+            },
+            "refreshToken": {
+              "type": "string",
+              "description": "Refrash Token",
+              "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "format": "name"
+            },
             "email": {
               "type": "string",
               "description": "User's email",
               "format": "email"
             }
           }
-        },
-        "example": { "email": "user@gmail.com" }
+        }
       },
       "RegistrationRequest": {
         "type": "object",
@@ -714,11 +831,15 @@
             "minLength": 6
           }
         },
-        "required": ["name", "email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
         "example": {
-          "name": "Andrew",
-          "email": "user@gmail.com",
-          "password": "qwerty123"
+          "name": "User name",
+          "email": "email@example.com",
+          "password": "Password12345$"
         }
       },
       "UpdateUserRequest": {
@@ -746,13 +867,16 @@
             "description": "User's birthday"
           }
         },
-        "required": ["name", "email"],
+        "required": [
+          "name",
+          "email"
+        ],
         "example": {
-          "name": "Andrew",
+          "name": "User name",
           "email": "user@gmail.com",
-          "skype": "apinchuk",
-          "phone": "38 (073) 000 00 00",
-          "birthday": "28/03/2000"
+          "skype": "User skype ",
+          "phone": "380 102030405",
+          "birthday": "01.01.2021"
         }
       },
       "UpdateUserResponse": {
@@ -786,10 +910,10 @@
         "example": {
           "message": "UserInfo updated",
           "user": {
-            "skype": "apinchuk",
-            "birthday": "28/03/2000",
+            "skype": "User skype ",
+            "birthday": "01.01.2021",
             "_id": "6479dbb972171cebb39e9dc0",
-            "name": "Andrew",
+            "name": "User name",
             "email": "user@gmail.com",
             "avatarUrl": "//www.gravatar.com/avatar/2f1186e45bf2f3c8c6638ad88e55e056",
             "verify": true,
@@ -803,30 +927,54 @@
           "email": {
             "type": "string",
             "description": "User's email",
-            "format": "email"
+            "format": "email@example.com"
           },
           "password": {
             "type": "string",
             "description": "User's password",
-            "example": "qwerty123"
+            "example": "Password12345$"
           }
         },
-        "required": ["email", "password"],
-        "example": { "email": "user@gmail.com", "password": "qwerty123" }
+        "required": [
+          "email",
+          "password"
+        ],
+        "example": {
+          "email": "email@example.com",
+          "password": "Password12345$"
+        }
       },
       "LoginResponse": {
         "type": "object",
-        "items": {
-          "type": "object",
-          "properties": {
-            "token": {
-              "type": "string",
-              "description": "User's token"
-            }
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+          },
+          "refreshToken": {
+            "type": "string",
+            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
           }
         },
         "example": {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
+          "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82",
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
+        }
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken",
+            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
+          }
+        },
+        "required": [
+          "accessToken"
+        ],
+        "example": {
+          "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
       },
       "LogoutResponse": {
@@ -867,7 +1015,14 @@
       },
       "CreateTaskRequest": {
         "type": "object",
-        "required": ["title", "date", "start", "end", "priority", "category"],
+        "required": [
+          "title",
+          "date",
+          "start",
+          "end",
+          "priority",
+          "category"
+        ],
         "properties": {
           "title": {
             "type": "string",
@@ -927,7 +1082,6 @@
           }
         }
       },
-
       "NewTask": {
         "type": "object",
         "properties": {
@@ -1019,7 +1173,9 @@
                 "description": "Id review",
                 "example": "647c3368bb02a06a896ea358"
               },
-              "owner": { "$ref": "#/components/schemas/OwnerReview" },
+              "owner": {
+                "$ref": "#/components/schemas/OwnerReview"
+              },
               "rating": {
                 "type": "integer",
                 "description": "Rating review, rating from 0 to 5",
@@ -1087,7 +1243,9 @@
                   "description": "Id review",
                   "example": "647c3368bb02a06a896ea358"
                 },
-                "owner": { "$ref": "#/components/schemas/OwnerReview" },
+                "owner": {
+                  "$ref": "#/components/schemas/OwnerReview"
+                },
                 "rating": {
                   "type": "integer",
                   "description": "Rating review, rating from 0 to 5",
@@ -1105,7 +1263,10 @@
       },
       "CreateReviewRequest": {
         "type": "object",
-        "required": ["rating", "comment"],
+        "required": [
+          "rating",
+          "comment"
+        ],
         "properties": {
           "rating": {
             "type": "integer",
