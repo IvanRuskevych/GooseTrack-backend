@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { schemas } = require('../../models/user');
-const { validateBody, authenticate, upload, passport } = require('../../middlewares');
+const { validateBody, authenticate, upload, passport, isValidId } = require('../../middlewares');
 const ctrll = require('../../controllers/controllersAuth');
 const { updateUser } = require('../../controllers/controllersUsers');
 
@@ -52,6 +52,7 @@ router.get('/current', authenticate, ctrll.current);
  */
 router.patch(
   '/user/:id',
+  isValidId,
   authenticate,
   // upload.single('avatar'),
   validateBody(schemas.updateUserSchema),
