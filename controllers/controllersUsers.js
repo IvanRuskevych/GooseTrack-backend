@@ -88,13 +88,9 @@ cloudinary.config({
 });
 
 const updateUser = async (req, res) => {
-  console.log('req.params.id', req.params.id);
+  // const userId = req.params.id;
 
-  const userId = req.params.id;
-
-  const isUserExsists = await User.findById({ _id: userId });
-
-  console.log('isUserExsists--->>', isUserExsists);
+  const isUserExsists = await User.findById({ _id: req.params.id });
 
   if (!isUserExsists) {
     throw CustomError(404, 'User not found');
