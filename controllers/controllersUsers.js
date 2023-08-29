@@ -77,7 +77,7 @@ const bcrypt = require('bcrypt');
 const { v2: cloudinary } = require('cloudinary');
 require('dotenv').config();
 
-const { ctrlWrapper, CustomError } = require('../utils');
+const { ctrlWrapper } = require('../utils');
 const { User } = require('../models/user');
 
 // Настройка Cloudinary
@@ -88,15 +88,8 @@ cloudinary.config({
 });
 
 const updateUser = async (req, res) => {
-  // const userId = req.params.id;
-
-  const isUserExsists = await User.findById({ _id: req.params.id });
-
-  if (!isUserExsists) {
-    throw CustomError(404, 'User not found');
-  }
-
   const { id } = req.user;
+  console.log('updateUser-->>id', id);
 
   let updatedUser = {};
 
@@ -107,10 +100,8 @@ const updateUser = async (req, res) => {
     } else {
       updatedUser = { ...req.body };
     }
-    console.log('Updated user:', updatedUser);
   }
 
-  // Если есть файл с аватаром, загружаем его на Cloudinary и обновляем URL аватара
   if (req.file) {
     const { path: tmpUploadPath, originalname } = req.file;
 
@@ -137,8 +128,15 @@ const updateUser = async (req, res) => {
   });
 };
 
+const current = async (req, res) => {
+  const { name, email, birthday, phone, skype, avatarURL } = req.user;
+
+  res.status(200).json({ name, email, birthday, phone, skype, avatarURL });
+};
+
 module.exports = {
   updateUser: ctrlWrapper(updateUser),
+  current: ctrlWrapper(current),
 };
 
 // копия без CLOUDINARY
