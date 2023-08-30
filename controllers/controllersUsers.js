@@ -123,9 +123,15 @@ const updateUser = async (req, res) => {
 
   await User.findByIdAndUpdate(id, { ...updatedUser }, { new: true });
 
+  const user = await User.findById(id).select('name email birthday phone skype avatarURL -_id');
+  // .select('name email birthday phone skype avatarURL -:id')
+
   res.status(200).json({
-    user: { ...updatedUser, password: '' },
+    user,
   });
+  // res.status(200).json({
+  //   user: { ...updatedUser, password: '' },
+  // });
 };
 
 const current = async (req, res) => {
