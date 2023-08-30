@@ -79,6 +79,7 @@ require('dotenv').config();
 
 const { ctrlWrapper } = require('../utils');
 const { User } = require('../models/user');
+const { errorUpdateEmail } = require('../services');
 
 // Настройка Cloudinary
 cloudinary.config({
@@ -89,7 +90,12 @@ cloudinary.config({
 
 const updateUser = async (req, res) => {
   const { id } = req.user;
-  console.log('updateUser-->>id', id);
+
+  await errorUpdateEmail(req.body.email, id);
+
+  // const { email } = req.body;
+  // const userExists = await User.exists({ email, _id: { $ne: id } });
+  // if (userExists) throw CustomError(409, 'User with this email exists..');
 
   let updatedUser = {};
 

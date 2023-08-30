@@ -167,8 +167,10 @@ const googleAuth = async (req, res) => {
 
 const refresh = async (req, res) => {
   const { refreshToken: token } = req.body;
+  console.log('=======req.body==========', req.body);
 
   const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
+  console.log('====================', id);
   const isExist = await User.findOne({ refreshToken: token });
 
   if (!isExist) throw CustomError(403, 'Token does not valid');
