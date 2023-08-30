@@ -8,12 +8,8 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "servers": [
     {
       "url": "https://goosetrack-tj84.onrender.com"
@@ -39,9 +35,7 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User registration",
         "parameters": null,
         "security": [
@@ -80,9 +74,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -116,9 +108,7 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User logout",
         "parameters": [],
         "security": [
@@ -146,9 +136,7 @@
     },
     "/auth/current": {
       "get": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Get current user info",
         "parameters": [],
         "security": [
@@ -176,9 +164,7 @@
     },
     "/auth/user/:id": {
       "patch": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User updateInfo",
         "parameters": [],
         "security": [
@@ -221,9 +207,7 @@
     },
     "/api/tasks": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Get all tasks",
         "parameters": [
           {
@@ -268,9 +252,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Create task",
         "parameters": [],
         "security": [
@@ -313,9 +295,7 @@
     },
     "/api/tasks/:id": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Get task by ID",
         "parameters": [
           {
@@ -353,9 +333,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Change tasks",
         "parameters": [
           {
@@ -404,9 +382,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Delete task",
         "parameters": [
           {
@@ -446,9 +422,7 @@
     },
     "/api/tasks/:id/category": {
       "patch": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Change Category Task",
         "parameters": [
           {
@@ -499,9 +473,7 @@
     },
     "/api/reviews": {
       "get": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Get all reviews all users",
         "parameters": [
           {
@@ -539,9 +511,7 @@
     },
     "/api/reviews/": {
       "post": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Create review",
         "parameters": [],
         "security": [
@@ -584,9 +554,7 @@
     },
     "/api/reviews/id": {
       "get": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Get reviews by ID",
         "parameters": [
           {
@@ -624,9 +592,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Change review",
         "parameters": [
           {
@@ -679,9 +645,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Review task",
         "parameters": [
           {
@@ -721,7 +685,6 @@
     }
   },
 
-# ==================================================================================
   "components": {
     "schemas": {
       "CurrentUserResponse": {
@@ -741,7 +704,7 @@
           "avatarURL": "//www.gravatar.com/avatar/ba191e990b11d8be00bd2c43d88b8ab5"
         }
       },
-      # ==================================================================================
+
       "RegistrationResponse": {
         "type": "object",
         "properties": {
@@ -772,7 +735,6 @@
           }
         }
       },
-      # ==================================================================================
       "RegistrationRequest": {
         "type": "object",
         "properties": {
@@ -792,18 +754,13 @@
             "minLength": 6
           }
         },
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
+        "required": ["name", "email", "password"],
         "example": {
           "name": "User name",
           "email": "email@example.com",
           "password": "Password12345$"
         }
       },
-      # ==================================================================================
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
@@ -829,10 +786,7 @@
             "description": "User's birthday"
           }
         },
-        "required": [
-          "name",
-          "email"
-        ],
+        "required": ["name", "email"],
         "example": {
           "name": "User name",
           "email": "user@gmail.com",
@@ -841,7 +795,6 @@
           "birthday": "01.01.2021"
         }
       },
-      # ==================================================================================
       "UpdateUserResponse": {
         "type": "object",
         "items": {
@@ -884,7 +837,6 @@
           }
         }
       },
-      # ==================================================================================
       "LoginRequest": {
         "type": "object",
         "properties": {
@@ -899,16 +851,12 @@
             "example": "Password12345$"
           }
         },
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "example": {
           "email": "email@example.com",
           "password": "Password12345$"
         }
       },
-      # ==================================================================================
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -938,7 +886,6 @@
           }
         }
       },
-      # ==================================================================================
       "LogoutRequest": {
         "type": "object",
         "properties": {
@@ -948,14 +895,11 @@
             "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
           }
         },
-        "required": [
-          "accessToken"
-        ],
+        "required": ["accessToken"],
         "example": {
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
       },
-      # ==================================================================================
       "LogoutResponse": {
         "type": "object",
         "items": {
@@ -971,7 +915,6 @@
           "message": "Successful logout"
         }
       },
-      # ==================================================================================
       "GetTasksResponse": {
         "type": "object",
         "properties": {
@@ -993,17 +936,9 @@
           }
         }
       },
-      # ==================================================================================
       "CreateTaskRequest": {
         "type": "object",
-        "required": [
-          "title",
-          "date",
-          "start",
-          "end",
-          "priority",
-          "category"
-        ],
+        "required": ["title", "date", "start", "end", "priority", "category"],
         "properties": {
           "title": {
             "type": "string",
@@ -1037,7 +972,6 @@
           }
         }
       },
-      # ==================================================================================
       "CreateTaskResponse": {
         "type": "object",
         "properties": {
@@ -1051,7 +985,6 @@
           }
         }
       },
-      # ==================================================================================
       "GetDeletePatchTaskResponse": {
         "type": "object",
         "properties": {
@@ -1065,7 +998,6 @@
           }
         }
       },
-      # ==================================================================================
       "NewTask": {
         "type": "object",
         "properties": {
@@ -1111,7 +1043,6 @@
           }
         }
       },
-      # ==================================================================================
       "PatchCategoryTaskRequest": {
         "type": "object",
         "properties": {
@@ -1122,7 +1053,6 @@
           }
         }
       },
-      # ==================================================================================
       "OwnerReview": {
         "type": "object",
         "properties": {
@@ -1143,7 +1073,6 @@
           }
         }
       },
-      # ==================================================================================
       "ReviewResponse": {
         "type": "array",
         "items": {
@@ -1172,7 +1101,6 @@
           }
         }
       },
-      # ==================================================================================
       "DeleteReviewResponse": {
         "type": "object",
         "properties": {
@@ -1183,7 +1111,6 @@
           }
         }
       },
-      # ==================================================================================
       "GetAllReviewsResponse": {
         "type": "array",
         "items": {
@@ -1210,13 +1137,9 @@
           }
         }
       },
-      # ==================================================================================
       "CreateReviewRequest": {
         "type": "object",
-        "required": [
-          "rating",
-          "comment"
-        ],
+        "required": ["rating", "comment"],
         "properties": {
           "rating": {
             "type": "integer",
@@ -1231,7 +1154,6 @@
         }
       }
     },
-    # ==================================================================================
     "securitySchemes": {
       "Bearer": {
         "type": "http",
