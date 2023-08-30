@@ -212,13 +212,6 @@
         "parameters": [
           {
             "in": "query",
-            "name": "day",
-            "required": false,
-            "type": "string",
-            "description": "The date on which to return the tasks. Format: YYYY-MM-DD"
-          },
-          {
-            "in": "query",
             "name": "month",
             "required": false,
             "type": "string",
@@ -294,44 +287,6 @@
       }
     },
     "/api/tasks/:id": {
-      "get": {
-        "tags": ["Tasks"],
-        "summary": "Get task by ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "string",
-            "description": "Task id"
-          }
-        ],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDeletePatchTaskResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unable to find Task",
-            "content": {}
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          }
-        }
-      },
       "patch": {
         "tags": ["Tasks"],
         "summary": "Change tasks",
@@ -366,7 +321,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetDeletePatchTaskResponse"
+                  "$ref": "#/components/schemas/CreateTaskReq"
                 }
               }
             }
@@ -398,57 +353,6 @@
             "Bearer": []
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDeletePatchTaskResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unable to find Task",
-            "content": {}
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/tasks/:id/category": {
-      "patch": {
-        "tags": ["Tasks"],
-        "summary": "Change Category Task",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "string",
-            "description": "Task id"
-          }
-        ],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "requestBody": {
-          "description": "Tasks's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchCategoryTaskRequest"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -735,6 +639,7 @@
           }
         }
       },
+
       "RegistrationRequest": {
         "type": "object",
         "properties": {
@@ -761,6 +666,7 @@
           "password": "Password12345$"
         }
       },
+
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
@@ -795,6 +701,7 @@
           "birthday": "01.01.2021"
         }
       },
+
       "UpdateUserResponse": {
         "type": "object",
         "items": {
@@ -823,6 +730,7 @@
             }
           }
         },
+
         "example": {
           "message": "UserInfo updated",
           "user": {
@@ -837,6 +745,7 @@
           }
         }
       },
+
       "LoginRequest": {
         "type": "object",
         "properties": {
@@ -857,6 +766,7 @@
           "password": "Password12345$"
         }
       },
+
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -886,6 +796,7 @@
           }
         }
       },
+
       "LogoutRequest": {
         "type": "object",
         "properties": {
@@ -900,6 +811,7 @@
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
       },
+
       "LogoutResponse": {
         "type": "object",
         "items": {
@@ -915,27 +827,79 @@
           "message": "Successful logout"
         }
       },
+
       "GetTasksResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "description": "Code operation",
-            "example": 200
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NewTask"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "",
+              "example": "done"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Title task",
+                    "example": "64eb8bf4ec3cfd1d22c535f6"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title task",
+                    "example": "My task 1"
+                  },
+                  "start": {
+                    "type": "string",
+                    "description": "Time start task. Format HH:MM",
+                    "example": "09:05"
+                  },
+                  "end": {
+                    "type": "string",
+                    "description": "Time end task. Format HH:MM. start < end",
+                    "example": "09:15"
+                  },
+                  "priority": {
+                    "type": "string",
+                    "description": "Priority task. One of the listed options: low | medium | high ",
+                    "example": "medium"
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date task. Format YYYY-MM-DD",
+                    "example": "2023-06-09"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "done"
+                  },
+                  "owner": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "64eb8bf4ec3cfd1d22c59fb1"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "2023-08-27T17:46:28.321Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "2023-08-30T16:07:28.466Z"
+                  }
+                }
+              }
             }
-          },
-          "count": {
-            "type": "integer",
-            "description": "Count found tasks",
-            "example": 2
           }
         }
       },
+
       "CreateTaskRequest": {
         "type": "object",
         "required": ["title", "date", "start", "end", "priority", "category"],
@@ -945,11 +909,6 @@
             "description": "Title task",
             "example": "My task 1"
           },
-          "date": {
-            "type": "string",
-            "description": "Date task. Format YYYY-MM-DD",
-            "example": "2023-06-09"
-          },
           "start": {
             "type": "string",
             "description": "Time start task. Format HH:MM",
@@ -965,6 +924,11 @@
             "description": "Priority task. One of the listed options: low | medium | high ",
             "example": "medium"
           },
+          "date": {
+            "type": "string",
+            "description": "Date task. Format YYYY-MM-DD",
+            "example": "2023-06-09"
+          },
           "category": {
             "type": "string",
             "description": "Category task. One of the listed options: to-do | in-progress | done ",
@@ -972,6 +936,73 @@
           }
         }
       },
+
+      "CreateTaskReq": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Code operation",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Title task",
+                "example": "64eb8bf4ec3cfd1d22c535f6"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title task",
+                "example": "My task 1"
+              },
+              "start": {
+                "type": "string",
+                "description": "Time start task. Format HH:MM",
+                "example": "09:05"
+              },
+              "end": {
+                "type": "string",
+                "description": "Time end task. Format HH:MM. start < end",
+                "example": "09:15"
+              },
+              "priority": {
+                "type": "string",
+                "description": "Priority task. One of the listed options: low | medium | high ",
+                "example": "medium"
+              },
+              "date": {
+                "type": "string",
+                "description": "Date task. Format YYYY-MM-DD",
+                "example": "2023-06-09"
+              },
+              "category": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "in-progress"
+              },
+              "owner": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "64eb8bf4ec3cfd1d22c59fb1"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-27T17:46:28.321Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-30T16:07:28.466Z"
+              }
+            }
+          }
+        }
+      },
+
       "CreateTaskResponse": {
         "type": "object",
         "properties": {
@@ -981,10 +1012,63 @@
             "example": 201
           },
           "data": {
-            "$ref": "#/components/schemas/NewTask"
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Title task",
+                "example": "64eb8bf4ec3cfd1d22c535f6"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title task",
+                "example": "My task 1"
+              },
+              "start": {
+                "type": "string",
+                "description": "Time start task. Format HH:MM",
+                "example": "09:05"
+              },
+              "end": {
+                "type": "string",
+                "description": "Time end task. Format HH:MM. start < end",
+                "example": "09:15"
+              },
+              "priority": {
+                "type": "string",
+                "description": "Priority task. One of the listed options: low | medium | high ",
+                "example": "medium"
+              },
+              "date": {
+                "type": "string",
+                "description": "Date task. Format YYYY-MM-DD",
+                "example": "2023-06-09"
+              },
+              "category": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "in-progress"
+              },
+              "owner": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "64eb8bf4ec3cfd1d22c59fb1"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-27T17:46:28.321Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-30T16:07:28.466Z"
+              }
+            }
           }
         }
       },
+
       "GetDeletePatchTaskResponse": {
         "type": "object",
         "properties": {
@@ -993,56 +1077,14 @@
             "description": "Code operation",
             "example": 200
           },
-          "data": {
-            "$ref": "#/components/schemas/NewTask"
+          "message": {
+            "type": "integer",
+            "description": "Task deleted",
+            "example": "Task deleted"
           }
         }
       },
-      "NewTask": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Id task",
-            "example": "647c3368bb02a06a896ea358"
-          },
-          "title": {
-            "type": "string",
-            "description": "Title task",
-            "example": "My task 1"
-          },
-          "date": {
-            "type": "string",
-            "description": "Date task. Format YYYY-MM-DD",
-            "example": "2023-06-09"
-          },
-          "start": {
-            "type": "string",
-            "description": "Time start task. Format HH:MM",
-            "example": "09:05"
-          },
-          "end": {
-            "type": "string",
-            "description": "Time end task. Format HH:MM. start < end",
-            "example": "09:15"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Priority task. One of the listed options: low | medium | high ",
-            "example": "medium"
-          },
-          "category": {
-            "type": "string",
-            "description": "Category task. One of the listed options: to-do | in-progress | done ",
-            "example": "in-progress"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Id user ",
-            "example": "647c3368bb02a06a896ea358"
-          }
-        }
-      },
+
       "PatchCategoryTaskRequest": {
         "type": "object",
         "properties": {
@@ -1053,6 +1095,7 @@
           }
         }
       },
+
       "OwnerReview": {
         "type": "object",
         "properties": {
@@ -1073,6 +1116,7 @@
           }
         }
       },
+
       "ReviewResponse": {
         "type": "array",
         "items": {
