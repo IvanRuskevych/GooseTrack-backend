@@ -54,7 +54,7 @@ router.patch(
   '/user',
   // isValidId,
   authenticate,
-  // upload.single('avatar'),
+  upload.single('avatar'),
   validateBody(schemas.updateUserSchema),
   updateUser
 );
