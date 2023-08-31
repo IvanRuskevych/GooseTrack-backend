@@ -186,7 +186,7 @@ const refresh = async (req, res) => {
   //   expiresIn: '7d',
   // }); // 23h
 
-  await User.findByIdAndUpdate(id, { accessToken, refreshToken });
+  await User.findByIdAndUpdate(id, { accessToken, refreshToken }, { new: true });
 
   res.status(200).json({
     accessToken,
