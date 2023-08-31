@@ -8,12 +8,8 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "servers": [
     {
       "url": "https://goosetrack-tj84.onrender.com"
@@ -39,9 +35,7 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User registration",
         "parameters": null,
         "security": [
@@ -80,9 +74,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -116,9 +108,7 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User logout",
         "parameters": [],
         "security": [
@@ -146,9 +136,7 @@
     },
     "/auth/current": {
       "get": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Get current user info",
         "parameters": [],
         "security": [
@@ -176,9 +164,7 @@
     },
     "/auth/user/:id": {
       "patch": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User updateInfo",
         "parameters": [],
         "security": [
@@ -221,18 +207,9 @@
     },
     "/api/tasks": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Get all tasks",
         "parameters": [
-          {
-            "in": "query",
-            "name": "day",
-            "required": false,
-            "type": "string",
-            "description": "The date on which to return the tasks. Format: YYYY-MM-DD"
-          },
           {
             "in": "query",
             "name": "month",
@@ -262,15 +239,13 @@
             "content": {}
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Not authorized",
             "content": {}
           }
         }
       },
       "post": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Create task",
         "parameters": [],
         "security": [
@@ -305,57 +280,15 @@
             "content": {}
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Not authorized",
             "content": {}
           }
         }
       }
     },
     "/api/tasks/:id": {
-      "get": {
-        "tags": [
-          "Tasks"
-        ],
-        "summary": "Get task by ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "string",
-            "description": "Task id"
-          }
-        ],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDeletePatchTaskResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unable to find Task",
-            "content": {}
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {}
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Tasks"
-        ],
+      "patch": {
+        "tags": ["Tasks"],
         "summary": "Change tasks",
         "parameters": [
           {
@@ -388,7 +321,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetDeletePatchTaskResponse"
+                  "$ref": "#/components/schemas/CreateTaskReq"
                 }
               }
             }
@@ -398,15 +331,13 @@
             "content": {}
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Not authorized",
             "content": {}
           }
         }
       },
       "delete": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Delete task",
         "parameters": [
           {
@@ -438,60 +369,7 @@
             "content": {}
           },
           "401": {
-            "description": "Unauthorized",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/tasks/:id/category": {
-      "patch": {
-        "tags": [
-          "Tasks"
-        ],
-        "summary": "Change Category Task",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "string",
-            "description": "Task id"
-          }
-        ],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "requestBody": {
-          "description": "Tasks's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchCategoryTaskRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDeletePatchTaskResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unable to find Task",
-            "content": {}
-          },
-          "401": {
-            "description": "Unauthorized",
+            "description": "Not authorized",
             "content": {}
           }
         }
@@ -499,9 +377,7 @@
     },
     "/api/reviews": {
       "get": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Get all reviews all users",
         "parameters": [
           {
@@ -533,66 +409,13 @@
           "400": {
             "description": "Unable to fetch Tasks",
             "content": {}
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {}
           }
         }
       }
     },
-    "/api/reviews/my-reviews": {
-      "get": {
-        "tags": [
-          "Reviews"
-        ],
-        "summary": "Get all reviews",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "type": "integer",
-            "description": "Number page"
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "type": "integer",
-            "description": "Count reviews in response"
-          }
-        ],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllReviewsResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unable to fetch Tasks",
-            "content": {}
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {}
-          }
-        }
-      },
+    "/api/reviews/": {
       "post": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Create review",
         "parameters": [],
         "security": [
@@ -627,17 +450,15 @@
             "content": {}
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Not authorized",
             "content": {}
           }
         }
       }
     },
-    "/api/reviews/my-reviews/:id": {
+    "/api/reviews/id": {
       "get": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Get reviews by ID",
         "parameters": [
           {
@@ -645,7 +466,7 @@
             "name": "id",
             "required": true,
             "type": "string",
-            "description": "Reviews id"
+            "description": "Owner/Reviews id"
           }
         ],
         "security": [
@@ -664,20 +485,18 @@
               }
             }
           },
-          "400": {
-            "description": "Unable to find Review",
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
-          "401": {
-            "description": "Unauthorized",
+          "404": {
+            "description": "No reviews found for this owner",
             "content": {}
           }
         }
       },
-      "put": {
-        "tags": [
-          "Reviews"
-        ],
+      "patch": {
+        "tags": ["Reviews"],
         "summary": "Change review",
         "parameters": [
           {
@@ -715,28 +534,32 @@
               }
             }
           },
-          "400": {
-            "description": "Unable to find Review",
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
-          "401": {
-            "description": "Unauthorized",
+          "403": {
+            "description": "You don't have permission to delete this review",
+            "content": {}
+          },
+          "404": {
+            "description": "No found",
             "content": {}
           }
         }
       },
       "delete": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Review task",
-        "parameters": {
-          "in": "path",
-          "name": "id",
-          "required": true,
-          "type": "string",
-          "description": "Review id"
-        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "Review id"
+          }
+        ],
         "security": [
           {
             "Bearer": []
@@ -753,18 +576,19 @@
               }
             }
           },
-          "400": {
-            "description": "Unable to find Review",
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
-          "401": {
-            "description": "Unauthorized",
+          "404": {
+            "description": "No reviews found for this owner",
             "content": {}
           }
         }
       }
     }
   },
+
   "components": {
     "schemas": {
       "CurrentUserResponse": {
@@ -784,34 +608,38 @@
           "avatarURL": "//www.gravatar.com/avatar/ba191e990b11d8be00bd2c43d88b8ab5"
         }
       },
+
       "RegistrationResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "accessToken": {
-              "type": "string",
-              "description": "Access Token",
-              "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
-            },
-            "refreshToken": {
-              "type": "string",
-              "description": "Refrash Token",
-              "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
-            },
-            "name": {
-              "type": "string",
-              "description": "User's name",
-              "format": "name"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Access Token",
+            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refrash Token",
+            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "format": "name"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
             }
           }
         }
       },
+
       "RegistrationRequest": {
         "type": "object",
         "properties": {
@@ -831,17 +659,14 @@
             "minLength": 6
           }
         },
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
+        "required": ["name", "email", "password"],
         "example": {
           "name": "User name",
           "email": "email@example.com",
           "password": "Password12345$"
         }
       },
+
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
@@ -867,10 +692,7 @@
             "description": "User's birthday"
           }
         },
-        "required": [
-          "name",
-          "email"
-        ],
+        "required": ["name", "email"],
         "example": {
           "name": "User name",
           "email": "user@gmail.com",
@@ -879,6 +701,7 @@
           "birthday": "01.01.2021"
         }
       },
+
       "UpdateUserResponse": {
         "type": "object",
         "items": {
@@ -907,6 +730,7 @@
             }
           }
         },
+
         "example": {
           "message": "UserInfo updated",
           "user": {
@@ -921,6 +745,7 @@
           }
         }
       },
+
       "LoginRequest": {
         "type": "object",
         "properties": {
@@ -935,15 +760,13 @@
             "example": "Password12345$"
           }
         },
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "example": {
           "email": "email@example.com",
           "password": "Password12345$"
         }
       },
+
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -954,13 +777,26 @@
           "refreshToken": {
             "type": "string",
             "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email"
+              }
+            }
           }
         },
         "example": {
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82",
-          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82",
+          "user": {
+            "email": "email@example.com"
+          }
         }
       },
+
       "LogoutRequest": {
         "type": "object",
         "properties": {
@@ -970,13 +806,12 @@
             "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
           }
         },
-        "required": [
-          "accessToken"
-        ],
+        "required": ["accessToken"],
         "example": {
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
       },
+
       "LogoutResponse": {
         "type": "object",
         "items": {
@@ -992,47 +827,87 @@
           "message": "Successful logout"
         }
       },
+
       "GetTasksResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "description": "Code operation",
-            "example": 200
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NewTask"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "",
+              "example": "done"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Title task",
+                    "example": "64eb8bf4ec3cfd1d22c535f6"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title task",
+                    "example": "My task 1"
+                  },
+                  "start": {
+                    "type": "string",
+                    "description": "Time start task. Format HH:MM",
+                    "example": "09:05"
+                  },
+                  "end": {
+                    "type": "string",
+                    "description": "Time end task. Format HH:MM. start < end",
+                    "example": "09:15"
+                  },
+                  "priority": {
+                    "type": "string",
+                    "description": "Priority task. One of the listed options: low | medium | high ",
+                    "example": "medium"
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date task. Format YYYY-MM-DD",
+                    "example": "2023-06-09"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "done"
+                  },
+                  "owner": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "64eb8bf4ec3cfd1d22c59fb1"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "2023-08-27T17:46:28.321Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                    "example": "2023-08-30T16:07:28.466Z"
+                  }
+                }
+              }
             }
-          },
-          "count": {
-            "type": "integer",
-            "description": "Count found tasks",
-            "example": 2
           }
         }
       },
+
       "CreateTaskRequest": {
         "type": "object",
-        "required": [
-          "title",
-          "date",
-          "start",
-          "end",
-          "priority",
-          "category"
-        ],
+        "required": ["title", "date", "start", "end", "priority", "category"],
         "properties": {
           "title": {
             "type": "string",
             "description": "Title task",
             "example": "My task 1"
-          },
-          "date": {
-            "type": "string",
-            "description": "Date task. Format YYYY-MM-DD",
-            "example": "2023-06-09"
           },
           "start": {
             "type": "string",
@@ -1049,6 +924,11 @@
             "description": "Priority task. One of the listed options: low | medium | high ",
             "example": "medium"
           },
+          "date": {
+            "type": "string",
+            "description": "Date task. Format YYYY-MM-DD",
+            "example": "2023-06-09"
+          },
           "category": {
             "type": "string",
             "description": "Category task. One of the listed options: to-do | in-progress | done ",
@@ -1056,6 +936,73 @@
           }
         }
       },
+
+      "CreateTaskReq": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Code operation",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Title task",
+                "example": "64eb8bf4ec3cfd1d22c535f6"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title task",
+                "example": "My task 1"
+              },
+              "start": {
+                "type": "string",
+                "description": "Time start task. Format HH:MM",
+                "example": "09:05"
+              },
+              "end": {
+                "type": "string",
+                "description": "Time end task. Format HH:MM. start < end",
+                "example": "09:15"
+              },
+              "priority": {
+                "type": "string",
+                "description": "Priority task. One of the listed options: low | medium | high ",
+                "example": "medium"
+              },
+              "date": {
+                "type": "string",
+                "description": "Date task. Format YYYY-MM-DD",
+                "example": "2023-06-09"
+              },
+              "category": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "in-progress"
+              },
+              "owner": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "64eb8bf4ec3cfd1d22c59fb1"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-27T17:46:28.321Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-30T16:07:28.466Z"
+              }
+            }
+          }
+        }
+      },
+
       "CreateTaskResponse": {
         "type": "object",
         "properties": {
@@ -1065,10 +1012,63 @@
             "example": 201
           },
           "data": {
-            "$ref": "#/components/schemas/NewTask"
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Title task",
+                "example": "64eb8bf4ec3cfd1d22c535f6"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title task",
+                "example": "My task 1"
+              },
+              "start": {
+                "type": "string",
+                "description": "Time start task. Format HH:MM",
+                "example": "09:05"
+              },
+              "end": {
+                "type": "string",
+                "description": "Time end task. Format HH:MM. start < end",
+                "example": "09:15"
+              },
+              "priority": {
+                "type": "string",
+                "description": "Priority task. One of the listed options: low | medium | high ",
+                "example": "medium"
+              },
+              "date": {
+                "type": "string",
+                "description": "Date task. Format YYYY-MM-DD",
+                "example": "2023-06-09"
+              },
+              "category": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "in-progress"
+              },
+              "owner": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "64eb8bf4ec3cfd1d22c59fb1"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-27T17:46:28.321Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Category task. One of the listed options: to-do | in-progress | done ",
+                "example": "2023-08-30T16:07:28.466Z"
+              }
+            }
           }
         }
       },
+
       "GetDeletePatchTaskResponse": {
         "type": "object",
         "properties": {
@@ -1077,56 +1077,14 @@
             "description": "Code operation",
             "example": 200
           },
-          "data": {
-            "$ref": "#/components/schemas/NewTask"
+          "message": {
+            "type": "integer",
+            "description": "Task deleted",
+            "example": "Task deleted"
           }
         }
       },
-      "NewTask": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Id task",
-            "example": "647c3368bb02a06a896ea358"
-          },
-          "title": {
-            "type": "string",
-            "description": "Title task",
-            "example": "My task 1"
-          },
-          "date": {
-            "type": "string",
-            "description": "Date task. Format YYYY-MM-DD",
-            "example": "2023-06-09"
-          },
-          "start": {
-            "type": "string",
-            "description": "Time start task. Format HH:MM",
-            "example": "09:05"
-          },
-          "end": {
-            "type": "string",
-            "description": "Time end task. Format HH:MM. start < end",
-            "example": "09:15"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Priority task. One of the listed options: low | medium | high ",
-            "example": "medium"
-          },
-          "category": {
-            "type": "string",
-            "description": "Category task. One of the listed options: to-do | in-progress | done ",
-            "example": "in-progress"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Id user ",
-            "example": "647c3368bb02a06a896ea358"
-          }
-        }
-      },
+
       "PatchCategoryTaskRequest": {
         "type": "object",
         "properties": {
@@ -1137,6 +1095,7 @@
           }
         }
       },
+
       "OwnerReview": {
         "type": "object",
         "properties": {
@@ -1157,35 +1116,31 @@
           }
         }
       },
+
       "ReviewResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "description": "Code operation",
-            "example": 200
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string",
-                "description": "Id review",
-                "example": "647c3368bb02a06a896ea358"
-              },
-              "owner": {
-                "$ref": "#/components/schemas/OwnerReview"
-              },
-              "rating": {
-                "type": "integer",
-                "description": "Rating review, rating from 0 to 5",
-                "example": 2
-              },
-              "comment": {
-                "type": "string",
-                "description": "Text review",
-                "example": "This text of review"
-              }
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Id review",
+              "example": "64eb881c325ba234b682201b"
+            },
+            "text": {
+              "type": "string",
+              "description": "Text review",
+              "example": "Text review"
+            },
+            "rating": {
+              "type": "integer",
+              "description": "Rating review, rating from 1 to 5",
+              "example": 5
+            },
+            "owner": {
+              "type": "string",
+              "description": "Id of the owner",
+              "example": "64eb6ed6619b36e78d062917"
             }
           }
         }
@@ -1193,87 +1148,49 @@
       "DeleteReviewResponse": {
         "type": "object",
         "properties": {
-          "code": {
+          "message": {
             "type": "integer",
-            "description": "Code operation",
-            "example": 200
-          },
-          "data": {
-            "type": "array",
-            "properties": {
-              "_id": {
-                "type": "string",
-                "description": "Id review",
-                "example": "647c3368bb02a06a896ea358"
-              },
-              "owner": {
-                "type": "string",
-                "description": "Id owner",
-                "example": "647c3368bb02a06a896ea358"
-              },
-              "rating": {
-                "type": "integer",
-                "description": "Rating review, rating from 0 to 5",
-                "example": 2
-              },
-              "comment": {
-                "type": "string",
-                "description": "Text review",
-                "example": "This text of review"
-              }
-            }
+            "description": "Delete success",
+            "example": "Delete success"
           }
         }
       },
       "GetAllReviewsResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "description": "Code operation",
-            "example": 200
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "Id review",
-                  "example": "647c3368bb02a06a896ea358"
-                },
-                "owner": {
-                  "$ref": "#/components/schemas/OwnerReview"
-                },
-                "rating": {
-                  "type": "integer",
-                  "description": "Rating review, rating from 0 to 5",
-                  "example": 2
-                },
-                "comment": {
-                  "type": "string",
-                  "description": "Text review",
-                  "example": "This text of review"
-                }
-              }
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Id review",
+              "example": "647c3368bb02a06a896ea358"
+            },
+            "text": {
+              "type": "string",
+              "description": "Text review",
+              "example": "This text of review"
+            },
+            "rating": {
+              "type": "integer",
+              "description": "Rating review, rating from 1 to 5",
+              "example": 2
+            },
+            "owner": {
+              "$ref": "#/components/schemas/OwnerReview"
             }
           }
         }
       },
       "CreateReviewRequest": {
         "type": "object",
-        "required": [
-          "rating",
-          "comment"
-        ],
+        "required": ["rating", "comment"],
         "properties": {
           "rating": {
             "type": "integer",
             "description": "Rating review, rating from 0 to 5",
-            "example": 2
+            "example": 5
           },
-          "comment": {
+          "text": {
             "type": "string",
             "description": "Text review",
             "example": "This text of review"

@@ -48,6 +48,7 @@ const register = async (req, res) => {
   const { accessToken, refreshToken } = createTokens(payload);
 
   res.status(201).json({
+    message: 'Verification letter was send to you email.',
     accessToken,
     refreshToken,
     user: {
@@ -166,8 +167,10 @@ const googleAuth = async (req, res) => {
 
 const refresh = async (req, res) => {
   const { refreshToken: token } = req.body;
+  console.log('=======req.body==========', req.body);
 
   const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
+  console.log('====================', id);
   const isExist = await User.findOne({ refreshToken: token });
 
   if (!isExist) throw CustomError(403, 'Token does not valid');
@@ -183,7 +186,7 @@ const refresh = async (req, res) => {
   //   expiresIn: '7d',
   // }); // 23h
 
-  await User.findByIdAndUpdate(id, { accessToken, refreshToken });
+  await User.findByIdAndUpdate(id, { accessToken, refreshToken }, { new: true });
 
   res.status(200).json({
     accessToken,
@@ -197,12 +200,6 @@ const logout = async (req, res) => {
   await User.findByIdAndUpdate(_id, { accessToken: '', refreshToken: '' });
 
   res.status(204).json();
-};
-
-const current = async (req, res) => {
-  const { name, email, birthday, phone, skype, avatarURL } = req.user;
-
-  res.status(200).json({ name, email, birthday, phone, skype, avatarURL });
 };
 
 const updateAvatar = async (req, res) => {
@@ -233,8 +230,6 @@ module.exports = {
   refresh: ctrlWrapper(refresh),
 
   logout: ctrlWrapper(logout),
-
-  current: ctrlWrapper(current),
 
   updateAvatar: ctrlWrapper(updateAvatar),
 };

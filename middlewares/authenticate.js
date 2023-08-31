@@ -8,8 +8,8 @@ const { ACCESS_SECRET_KEY } = process.env;
 const authenticate = async (req, res, next) => {
   const { authorization = '' } = req.headers;
   const [bearer, token] = authorization.split(' ');
-  console.log('bearer', bearer);
-  console.log('token', token);
+  // console.log('bearer', bearer);
+  // console.log('token', token);
 
   if (bearer !== 'Bearer') {
     next(CustomError(401, 'Not authorized'));
@@ -20,7 +20,7 @@ const authenticate = async (req, res, next) => {
 
     const user = await User.findById(id);
 
-    console.log('USER-authenticate ', user);
+    // console.log('USER-authenticate ', user);
     const { accessToken } = user;
 
     if (!user || !accessToken || accessToken !== token) {
