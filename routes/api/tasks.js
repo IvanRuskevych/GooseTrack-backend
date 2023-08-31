@@ -4,23 +4,23 @@ const ctrl = require("../../controllers/controllersTask");
 const { schemas } = require("../../models/task");
 
 const { validateBody, isValidId,
-       // authenticate 
+       authenticate 
       } = require("../../middlewares");
 
 router.get("/", 
-           // authenticate, 
+           authenticate, 
            ctrl.getAll);
 
 router.post("/", 
-            // authenticate, 
+            authenticate, 
             validateBody(schemas.addTaskSchema), ctrl.add);
 
 router.delete("/:id",
-              // authenticate, 
+              authenticate, 
               isValidId, ctrl.deleteTask);
 
 router.patch("/:id",
-             // authenticate, 
+             authenticate, 
              isValidId, ctrl.update);
 
 module.exports = router;
