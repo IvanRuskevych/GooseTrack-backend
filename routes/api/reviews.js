@@ -12,13 +12,15 @@ const router = express.Router()
 router.get('/', reviewController.getAllReviews)
 
 // 2) получить отзыв пользователя GET /reviews/own
-router.get('/:id', isValidId, authenticate, reviewController.getUserReview)
+router.get('/:id', isValidId,
+           // authenticate,
+           reviewController.getUserReview)
 
 // 3 ) Добавление отзыва.  POST /reviews/own
 
 router.post(
   '/',
-  authenticate,
+  // authenticate,
   validateBody(schemas.addReviewSchema),
   reviewController.addReview
 )
@@ -28,7 +30,7 @@ router.post(
 router.patch(
   '/:id',
   isValidId,
-  authenticate,
+  // authenticate,
   validateBody(schemas.addReviewSchema),
   reviewController.updateReviewById
 )
@@ -38,7 +40,7 @@ router.patch(
 router.delete(
   '/:id',
   isValidId,
-  authenticate,
+  // authenticate,
   reviewController.deleteReviewById
 )
 
