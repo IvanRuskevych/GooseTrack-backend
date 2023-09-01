@@ -27,23 +27,13 @@ const getFilter = (params) => {
   return filter;
 };
 
-// const getAll = async (req, res, next) => {
-//   const { _id: owner } = req.user;
-//   const filter = getFilter({ ...req.query });
-//   const result = await Task.find({
-//     owner,
-//     date: { $regex: filter, $options: "i" },
-//   });
-//   res.status(200).json({ code: 200, data: result, count: result.length });
-// };
-
 const getAll = async (req, res, next) => {
   const { _id: owner } = req.user;
   const filter = getFilter({ ...req.query });
   const results = await Task.find({
     owner,
     date: { $regex: filter, $options: "i" },
-  });
+  }).populate("owner", "name avatarURL");
 
   results.sort((a, b) => (a.category > b.category ? 1 : -1));
 
@@ -63,10 +53,7 @@ const getAll = async (req, res, next) => {
     })
   );
 
-  res
-    .status(200)
-    // .json({ code: 200, data: groupedArray, count: results.length });
-    .json(groupedArray);
+  res.status(200).json(groupedArray);
 };
 
 const add = async (req, res) => {
@@ -77,22 +64,47 @@ const add = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const result = await Task.findByIdAndUpdate(id, req.body, {
-    new: true,
-  });
-  if (!result) {
-    throw CustomError(404, "Not found");
+  const ownerId = req.user._id;
+  const newData = req.body;
+
+  // Проверяем, является ли пользователь владельцем задачи
+  const taskToUpdate = await Task.findById(id);
+  if (!taskToUpdate) {
+    throw CustomError(404, "Task not found");
   }
+  if (taskToUpdate.owner.toString() !== ownerId.toString()) {
+    return res
+      .status(403)
+      .json({ code: 403, message: "У вас нет прав на изменение этой задачи" });
+  }
+
+  // Если пользователь владелец, обновляем задачу
+  const result = await Task.findByIdAndUpdate(id, newData, { new: true });
+
   res.status(200).json({ code: 200, data: result });
 };
 
 const deleteTask = async (req, res) => {
   const { id } = req.params;
-  const result = await Task.findByIdAndDelete(id);
-  if (!result) {
-    throw CustomError(404, "Not found");
+  const ownerId = req.user._id;
+
+  // Проверяем, является ли пользователь владельцем задачи
+  const taskToDelete = await Task.findById(id);
+  if (!taskToDelete) {
+    throw CustomError(404, "Task not found");
   }
-  res.status(200).json({ code: 200, message: "Task deleted" });
+  if (taskToDelete.owner.toString() !== ownerId.toString()) {
+    return res
+      .status(403)
+      .json({ code: 403, message: "У вас нет прав на удаление этой задачи" });
+  }
+
+  // Если пользователь владелец, удаляем задачу
+  const result = await Task.findByIdAndDelete(id);
+
+  res
+    .status(200)
+    .json({ code: 200, message: "Task deleted", deletedTask: result });
 };
 
 module.exports = {
