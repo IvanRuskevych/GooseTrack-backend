@@ -49,6 +49,7 @@ const getAll = async (req, res, next) => {
   const groupedArray = Object.entries(groupedResults).map(
     ([category, data]) => ({
       category,
+      amount: data.length,
       data,
     })
   );
