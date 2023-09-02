@@ -43,25 +43,15 @@ const updateUser = async (req, res) => {
     });
 
     updatedUser = { ...updatedUser, avatarURL: cloudinaryUploadResponse.secure_url };
-
-    await User.findByIdAndUpdate(
-      id,
-      { avatarURL: cloudinaryUploadResponse.secure_url },
-      { new: true }
-    );
   }
 
   await User.findByIdAndUpdate(id, { ...updatedUser }, { new: true });
 
   const user = await User.findById(id).select('name email birthday phone skype avatarURL -_id');
-  // .select('name email birthday phone skype avatarURL -:id')
 
   res.status(200).json({
     user,
   });
-  // res.status(200).json({
-  //   user: { ...updatedUser, password: '' },
-  // });
 };
 
 const current = async (req, res) => {
