@@ -43,7 +43,8 @@ const getUserReview = async (req, res) => {
     .limit(limit);
 
   if (!reviews.length) {
-    return res.status(404).json({ message: 'No reviews found for this owner' });
+    // return res.status(404).json({ message: 'No reviews found for this owner' });
+    return res.json(reviews); // у разі відсутності відгуку має повертати пустий масив та status(200)
   }
 
   res.json(reviews);
