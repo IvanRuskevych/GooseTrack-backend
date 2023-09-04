@@ -46,6 +46,6 @@ To install Goose Track, follow these steps:
 
 ## Links
 
-- [Live Demo]()
-- [Frontend Repository]()
+- [Live Demo](https://kharkivska-kurkuma.github.io/GooseTrack)
+- [Frontend Repository](https://github.com/KHARKIVSKA-KURKUMA/GooseTrack)
 - [Backend Repository](https://github.com/IvanRuskevych/GooseTrack-backend)
