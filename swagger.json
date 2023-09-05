@@ -155,7 +155,7 @@
         }
       }
     },
-    "/auth/user/{id}": {
+    "/auth/user": {
       "patch": {
         "tags": ["Auth"],
         "summary": "User updateInfo",
