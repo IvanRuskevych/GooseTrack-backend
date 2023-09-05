@@ -671,8 +671,8 @@
         ],
         "example": {
           "name": "User name",
-          "email": "email@example.com",
-          "password": "Password12345$"
+          "email": "kedimi2277@searpen.com",
+          "password": "kedimi2277"
         }
       },
       "UpdateUserRequest": {
@@ -773,8 +773,8 @@
           "password"
         ],
         "example": {
-          "email": "email@example.com",
-          "password": "Password12345$"
+          "email": "kedimi2277@searpen.com",
+          "password": "kedimi2277"
         }
       },
       "LoginResponse": {
