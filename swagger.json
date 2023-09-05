@@ -527,7 +527,7 @@
       },
       "delete": {
         "tags": ["Reviews"],
-        "summary": "Review task",
+        "summary": "Review delete",
         "parameters": [
           {
             "in": "path",
