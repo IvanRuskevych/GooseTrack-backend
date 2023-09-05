@@ -67,35 +67,44 @@ userSchema.post('save', handleMongooseError);
 
 const registerSchema = Joi.object({
   name: Joi.string().max(28).required().messages({
-    'any.required': 'Missing required <name> field',
-    'string.empty': 'Field <name> cannot be an empty string',
+    'string.base': 'The name must be a string.',
+    'any.required': 'The name field is required.',
+    'string.empty': 'The name must not be empty.',
   }),
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'any.required': 'Missing required <email> field',
-    'string.empty': 'Field <email> cannot be an empty string',
+    'string.base': 'The email must be a string.',
+    'any.required': 'The email field is required.',
+    'string.empty': 'The email must not be empty.',
+    'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
   password: Joi.string().min(6).required().messages({
-    'any.required': 'Missing required <password> field',
-    'string.empty': 'Field <password> cannot be an empty string',
+    'string.base': 'The password must be a string.',
+    'any.required': 'The password field is required.',
+    'string.empty': 'The password must not be empty.',
   }),
 });
 
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'any.required': 'Missing required <email> field',
-    'string.empty': 'Field <email> cannot be an empty string',
+    'string.base': 'The email must be a string.',
+    'any.required': 'The email field is required.',
+    'string.empty': 'The email must not be empty.',
+    'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
   password: Joi.string().min(6).required().messages({
-    'any.required': 'Missing required <password> field',
-    'string.empty': 'Field <password> cannot be an empty string',
+    'string.base': 'The password must be a string.',
+    'any.required': 'The password field is required.',
+    'string.empty': 'The password must not be empty.',
   }),
 });
 
 // for SendGrid
 const schemaEmail = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'any.required': 'Missing required <email> field',
-    'string.empty': 'Field <email> cannot be an empty string',
+    'string.base': 'The email must be a string.',
+    'any.required': 'The email field is required.',
+    'string.empty': 'The email must not be empty.',
+    'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
 });
 
