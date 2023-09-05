@@ -8,12 +8,8 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
 
   "servers": [
     {
@@ -41,12 +37,10 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
-         "requestBody": {
+        "requestBody": {
           "description": "Registration's object",
           "required": true,
           "content": {
@@ -76,9 +70,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -111,9 +103,7 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User logout",
         "parameters": [],
         "security": [
@@ -140,9 +130,7 @@
     },
     "/auth/current": {
       "get": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Get current user info",
         "parameters": [],
         "security": [
@@ -169,9 +157,7 @@
     },
     "/auth/user/{id}": {
       "patch": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User updateInfo",
         "parameters": [],
         "security": [
@@ -213,9 +199,7 @@
     },
     "/api/tasks": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Get all tasks",
         "parameters": [
           {
@@ -252,9 +236,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Create task",
         "parameters": [],
         "security": [
@@ -296,9 +278,7 @@
     },
     "/api/tasks/{id}": {
       "patch": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Change tasks",
         "parameters": [
           {
@@ -346,9 +326,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Delete task",
         "parameters": [
           {
@@ -387,9 +365,7 @@
     },
     "/api/reviews": {
       "get": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Get all reviews all users",
         "parameters": [
           {
@@ -427,9 +403,7 @@
     },
     "/api/reviews/": {
       "post": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Create review",
         "parameters": [],
         "security": [
@@ -470,9 +444,7 @@
     },
     "/api/reviews/own": {
       "get": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Get owner reviews",
         "security": [
           {
@@ -502,9 +474,7 @@
     },
     "/api/reviews/{id}": {
       "patch": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Change review",
         "parameters": [
           {
@@ -556,9 +526,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Reviews"
-        ],
+        "tags": ["Reviews"],
         "summary": "Review task",
         "parameters": [
           {
@@ -607,8 +575,8 @@
           }
         },
         "example": {
-          "name": "Ivan12345",
-          "email": "irusdeutsch@gmail.com",
+          "name": "kedimi",
+          "email": "kedimi2277@searpen.com",
           "birthday": "01.01.2001",
           "phone": "+380 102030405",
           "skype": "User skype nickname",
@@ -664,11 +632,7 @@
             "minLength": 6
           }
         },
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
+        "required": ["name", "email", "password"],
         "example": {
           "name": "User name",
           "email": "kedimi2277@searpen.com",
@@ -700,10 +664,7 @@
             "description": "User's birthday"
           }
         },
-        "required": [
-          "name",
-          "email"
-        ],
+        "required": ["name", "email"],
         "example": {
           "name": "User name",
           "email": "user@gmail.com",
@@ -768,10 +729,7 @@
             "example": "Password12345$"
           }
         },
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "example": {
           "email": "kedimi2277@searpen.com",
           "password": "kedimi2277"
@@ -815,9 +773,7 @@
             "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
           }
         },
-        "required": [
-          "accessToken"
-        ],
+        "required": ["accessToken"],
         "example": {
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
@@ -910,14 +866,7 @@
       },
       "CreateTaskRequest": {
         "type": "object",
-        "required": [
-          "title",
-          "date",
-          "start",
-          "end",
-          "priority",
-          "category"
-        ],
+        "required": ["title", "date", "start", "end", "priority", "category"],
         "properties": {
           "title": {
             "type": "string",
@@ -1192,10 +1141,7 @@
       },
       "CreateReviewRequest": {
         "type": "object",
-        "required": [
-          "rating",
-          "comment"
-        ],
+        "required": ["rating", "comment"],
         "properties": {
           "rating": {
             "type": "integer",
