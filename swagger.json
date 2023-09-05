@@ -44,11 +44,6 @@
         ],
         "summary": "User registration",
         "parameters": null,
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -170,7 +165,7 @@
         }
       }
     },
-    "/auth/user/:id": {
+    "/auth/user/{id}": {
       "patch": {
         "tags": [
           "Auth"
@@ -297,7 +292,7 @@
         }
       }
     },
-    "/api/tasks/:id": {
+    "/api/tasks/{id}": {
       "patch": {
         "tags": [
           "Tasks"
@@ -498,7 +493,7 @@
         }
       }
     },
-    "/api/reviews/:id": {
+    "/api/reviews/{id}": {
       "patch": {
         "tags": [
           "Reviews"
