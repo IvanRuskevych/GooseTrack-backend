@@ -10,6 +10,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
+
   "servers": [
     {
       "url": "https://goosetrack-tj84.onrender.com"
@@ -18,6 +19,7 @@
       "url": "http://localhost:8080"
     }
   ],
+
   "tags": [
     {
       "name": "Auth",
@@ -37,12 +39,7 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
-        "parameters": null,
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -66,8 +63,7 @@
             }
           },
           "409": {
-            "description": "Email in use",
-            "content": {}
+            "description": "Email in use"
           }
         }
       }
@@ -100,8 +96,7 @@
             }
           },
           "401": {
-            "description": "Email or password is wrong",
-            "content": {}
+            "description": "Email or password is wrong"
           }
         }
       }
@@ -128,8 +123,7 @@
             }
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           }
         }
       }
@@ -156,13 +150,12 @@
             }
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           }
         }
       }
     },
-    "/auth/user/:id": {
+    "/auth/user": {
       "patch": {
         "tags": ["Auth"],
         "summary": "User updateInfo",
@@ -195,8 +188,7 @@
             }
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           },
           "404": {
             "description": "User not found",
@@ -239,8 +231,7 @@
             "content": {}
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           }
         }
       },
@@ -280,13 +271,12 @@
             "content": {}
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           }
         }
       }
     },
-    "/api/tasks/:id": {
+    "/api/tasks/{id}": {
       "patch": {
         "tags": ["Tasks"],
         "summary": "Change tasks",
@@ -331,8 +321,7 @@
             "content": {}
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           }
         }
       },
@@ -369,8 +358,7 @@
             "content": {}
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           }
         }
       }
@@ -446,36 +434,25 @@
             }
           },
           "400": {
-            "description": "Unable to save in DataBase",
-            "content": {}
+            "description": "You can only add one review"
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           }
         }
       }
     },
-    "/api/reviews/id": {
+    "/api/reviews/own": {
       "get": {
         "tags": ["Reviews"],
-        "summary": "Get reviews by ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "string",
-            "description": "Owner/Reviews id"
-          }
-        ],
+        "summary": "Get owner reviews",
         "security": [
           {
             "Bearer": []
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -486,15 +463,16 @@
             }
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           },
           "404": {
             "description": "No reviews found for this owner",
             "content": {}
           }
         }
-      },
+      }
+    },
+    "/api/reviews/{id}": {
       "patch": {
         "tags": ["Reviews"],
         "summary": "Change review",
@@ -535,8 +513,7 @@
             }
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           },
           "403": {
             "description": "You don't have permission to delete this review",
@@ -577,8 +554,7 @@
             }
           },
           "401": {
-            "description": "Not authorized",
-            "content": {}
+            "description": "Not authorized"
           },
           "404": {
             "description": "No reviews found for this owner",
@@ -588,7 +564,6 @@
       }
     }
   },
-
   "components": {
     "schemas": {
       "CurrentUserResponse": {
@@ -600,15 +575,14 @@
           }
         },
         "example": {
-          "name": "Ivan12345",
-          "email": "irusdeutsch@gmail.com",
+          "name": "kedimi",
+          "email": "kedimi2277@searpen.com",
           "birthday": "01.01.2001",
           "phone": "+380 102030405",
           "skype": "User skype nickname",
           "avatarURL": "//www.gravatar.com/avatar/ba191e990b11d8be00bd2c43d88b8ab5"
         }
       },
-
       "RegistrationResponse": {
         "type": "object",
         "properties": {
@@ -639,7 +613,6 @@
           }
         }
       },
-
       "RegistrationRequest": {
         "type": "object",
         "properties": {
@@ -662,11 +635,10 @@
         "required": ["name", "email", "password"],
         "example": {
           "name": "User name",
-          "email": "email@example.com",
-          "password": "Password12345$"
+          "email": "kedimi2277@searpen.com",
+          "password": "kedimi2277"
         }
       },
-
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
@@ -701,7 +673,6 @@
           "birthday": "01.01.2021"
         }
       },
-
       "UpdateUserResponse": {
         "type": "object",
         "items": {
@@ -730,7 +701,6 @@
             }
           }
         },
-
         "example": {
           "message": "UserInfo updated",
           "user": {
@@ -745,7 +715,6 @@
           }
         }
       },
-
       "LoginRequest": {
         "type": "object",
         "properties": {
@@ -762,11 +731,10 @@
         },
         "required": ["email", "password"],
         "example": {
-          "email": "email@example.com",
-          "password": "Password12345$"
+          "email": "kedimi2277@searpen.com",
+          "password": "kedimi2277"
         }
       },
-
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -796,7 +764,6 @@
           }
         }
       },
-
       "LogoutRequest": {
         "type": "object",
         "properties": {
@@ -811,7 +778,6 @@
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
       },
-
       "LogoutResponse": {
         "type": "object",
         "items": {
@@ -827,7 +793,6 @@
           "message": "Successful logout"
         }
       },
-
       "GetTasksResponse": {
         "type": "array",
         "items": {
@@ -899,7 +864,6 @@
           }
         }
       },
-
       "CreateTaskRequest": {
         "type": "object",
         "required": ["title", "date", "start", "end", "priority", "category"],
@@ -936,7 +900,6 @@
           }
         }
       },
-
       "CreateTaskReq": {
         "type": "object",
         "properties": {
@@ -1002,7 +965,6 @@
           }
         }
       },
-
       "CreateTaskResponse": {
         "type": "object",
         "properties": {
@@ -1068,7 +1030,6 @@
           }
         }
       },
-
       "GetDeletePatchTaskResponse": {
         "type": "object",
         "properties": {
@@ -1084,7 +1045,6 @@
           }
         }
       },
-
       "PatchCategoryTaskRequest": {
         "type": "object",
         "properties": {
@@ -1095,7 +1055,6 @@
           }
         }
       },
-
       "OwnerReview": {
         "type": "object",
         "properties": {
@@ -1116,7 +1075,6 @@
           }
         }
       },
-
       "ReviewResponse": {
         "type": "array",
         "items": {

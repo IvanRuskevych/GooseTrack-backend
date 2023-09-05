@@ -11,6 +11,7 @@ const { User } = require('../models/user');
 
 const { CustomError, ctrlWrapper, avatarResize, sendEmail } = require('../utils');
 const { createTokens } = require('../services/servicesToken');
+const htmlEmailVerify = require('../views/emailVerify');
 
 const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
 
@@ -33,10 +34,13 @@ const register = async (req, res) => {
     verificationToken,
   });
 
+  const urlVerify = `${BASE_URL}/auth/verify/${verificationToken}`;
+
   const verifyEmail = {
     to: email,
-    subject: 'Verify email',
-    html: `<a target="_blank" href="${BASE_URL}/auth/verify/${verificationToken}">Click verify email</a>`,
+    subject: 'Email verify instruction',
+    // html: `<a target="_blank" href="${BASE_URL}/auth/verify/${verificationToken}">Click verify email</a>`,
+    html: htmlEmailVerify(urlVerify),
   };
 
   sendEmail(verifyEmail);
@@ -87,10 +91,13 @@ const resendVerifyEmail = async (req, res) => {
     throw CustomError(400, 'Verification has already been passed');
   }
 
+  const urlVerify = `${BASE_URL}/auth/verify/${user.verificationToken}`;
+
   const verifyEmail = {
     to: email,
     subject: 'Verify email',
-    html: `<a target="_blank" href="${BASE_URL}/auth/verify/${user.verificationToken}">Click verify email</a>`,
+    // html: `<a target="_blank" href="${BASE_URL}/auth/verify/${user.verificationToken}">Click verify email</a>`,
+    html: htmlEmailVerify(urlVerify),
   };
 
   await sendEmail(verifyEmail);

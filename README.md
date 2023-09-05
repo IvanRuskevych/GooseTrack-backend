@@ -1,7 +1,5 @@
 # GooseTrack - backend part
 
-- [BackEnd_BASE_URL](https://goosetrack-tj84.onrender.com)
-
 ## Tools
 
 Goose Track is built using the following tools:
@@ -42,10 +40,11 @@ To install Goose Track, follow these steps:
 
 5. Start the server using
 
-- $ npm run dev - for start Beckend
+- $ npm run dev - for start
 
 ## Links
 
-- [Live Demo]()
-- [Frontend Repository]()
+- [Live Demo](https://kharkivska-kurkuma.github.io/GooseTrack)
+- [Frontend Repository](https://github.com/KHARKIVSKA-KURKUMA/GooseTrack)
 - [Backend Repository](https://github.com/IvanRuskevych/GooseTrack-backend)
+- [Swagger](https://goosetrack-tj84.onrender.com/api-docs/)

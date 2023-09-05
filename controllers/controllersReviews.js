@@ -1,32 +1,31 @@
-const { CustomError, ctrlWrapper } = require('../utils')
+const { ctrlWrapper } = require('../utils');
 
-const { Review } = require('../models/review')
+const { Review } = require('../models/review');
 
 // 1) Получение всех отзывов в базе без авторизации
 const getAllReviews = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query
+  const { page = 1, limit = 10 } = req.query;
   if (page <= 0) {
-    return res.status(400).json({ message: 'Invalid page number' })
+    return res.status(400).json({ message: 'Invalid page number' });
   }
 
-  const skip = (page - 1) * limit
+  const skip = (page - 1) * limit;
 
   const reviews = await Review.find({}, '-createdAt -updatedAt', {
     skip,
-    limit
-  }).populate('owner', 'name avatarURL')
+    limit,
+  }).populate('owner', 'name avatarURL');
 
-  res.json(reviews)
-}
+  res.json(reviews);
+};
 
-
-
-// 2) Получение отзыва пользователем по ИД отзыва и по ID owner
+// 2) Получение отзыва пользователя ID owner
 
 const getUserReview = async (req, res) => {
   const { _id: owner } = req.user;
   const { page = 1, limit = 10 } = req.query;
-  const requestedUserId = req.params.id;
+  const requestedUserId = req.user._id;
+  // console.log('requestedUserId=========>>>>>', requestedUserId);
 
   if (page <= 0) {
     return res.status(400).json({ message: 'Invalid page number' });
@@ -44,38 +43,32 @@ const getUserReview = async (req, res) => {
     .limit(limit);
 
   if (!reviews.length) {
-    return res.status(404).json({ message: 'No reviews found for this owner' });
+    // return res.status(404).json({ message: 'No reviews found for this owner' });
+    return res.json(reviews); // у разі відсутності відгуку має повертати пустий масив та status(200)
   }
 
   res.json(reviews);
 };
 
-
 // 3) Добавление отзыва пользователем
 
 const addReview = async (req, res) => {
-  const { _id: owner } = req.user
+  const { _id: owner } = req.user;
 
   // Проверяем, есть ли отзыв от данного пользователя в базе
-  const existingReview = await Review.findOne(
-    { owner }
-  )
+  const existingReview = await Review.findOne({ owner });
 
   if (existingReview) {
-    return res.status(400).json({ message: 'You can only add one review.' })
+    return res.status(400).json({ message: 'You can only add one review.' });
   }
 
   // Если отзыва еще нет, добавляем его, распыляем обьект и добавляем owner
-  const result = await Review.create({ ...req.body, owner })
+  const result = await Review.create({ ...req.body, owner });
   // если добавили статус 201 и отправляем результат на фронтенд
-  res.status(201).json(result)
-}
-
-
-
+  res.status(201).json(result);
+};
 
 //  4) Редактирование отзыва пользователем по ID отзыва Ready!
-
 
 const updateReviewById = async (req, res) => {
   const { id } = req.params;
@@ -94,7 +87,7 @@ const updateReviewById = async (req, res) => {
     // Добавляем проверку на соответствие идентификаторов
     if (review._id.equals(id)) {
       const updatedReview = await Review.findByIdAndUpdate(id, req.body, {
-        new: true
+        new: true,
       });
 
       if (!updatedReview) {
@@ -111,7 +104,6 @@ const updateReviewById = async (req, res) => {
     res.status(403).json({ error: "You don't have permission to update this review" });
   }
 };
-
 
 // 5)  Удаление отзыва пользователем по ID отзыва
 
@@ -169,16 +161,13 @@ const deleteReviewById = async (req, res) => {
   res.json({ message: 'Delete success' });
 };
 
-
-
 module.exports = {
   getAllReviews: ctrlWrapper(getAllReviews),
   getUserReview: ctrlWrapper(getUserReview),
   addReview: ctrlWrapper(addReview),
   deleteReviewById: ctrlWrapper(deleteReviewById),
-  updateReviewById: ctrlWrapper(updateReviewById)
-}
-
+  updateReviewById: ctrlWrapper(updateReviewById),
+};
 
 // const { CustomError, ctrlWrapper } = require('../utils')
 

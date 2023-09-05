@@ -2,10 +2,12 @@ const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 
 const { handleMongooseError } = require('../utils');
+const userRolesEnum = require('../constants');
 
+// eslint-disable-next-line no-useless-escape
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-// регулярка на пароль
+// const dateRegexp = /^(?:(?:0[1-9]|[12][0-9]|3[01])\/(?:0[1-9]|1[0-2])\/(?:19|20)\d\d)?$/;
+// const phoneRegexp = /^38\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}$/;
 
 const userSchema = new Schema(
   {
@@ -41,6 +43,12 @@ const userSchema = new Schema(
     accessToken: { type: String },
     refreshToken: { type: String },
 
+    subscription: {
+      type: String,
+      enum: Object.values(userRolesEnum),
+      default: userRolesEnum.USER,
+    },
+
     // for SendGrid
     verify: {
       type: Boolean,
@@ -59,35 +67,44 @@ userSchema.post('save', handleMongooseError);
 
 const registerSchema = Joi.object({
   name: Joi.string().max(28).required().messages({
-    'any.required': 'Missing required <name> field',
-    'string.empty': 'Field <name> cannot be an empty string',
+    'string.base': 'The name must be a string.',
+    'any.required': 'The name field is required.',
+    'string.empty': 'The name must not be empty.',
   }),
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'any.required': 'Missing required <email> field',
-    'string.empty': 'Field <email> cannot be an empty string',
+    'string.base': 'The email must be a string.',
+    'any.required': 'The email field is required.',
+    'string.empty': 'The email must not be empty.',
+    'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
   password: Joi.string().min(6).required().messages({
-    'any.required': 'Missing required <password> field',
-    'string.empty': 'Field <password> cannot be an empty string',
+    'string.base': 'The password must be a string.',
+    'any.required': 'The password field is required.',
+    'string.empty': 'The password must not be empty.',
   }),
 });
 
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'any.required': 'Missing required <email> field',
-    'string.empty': 'Field <email> cannot be an empty string',
+    'string.base': 'The email must be a string.',
+    'any.required': 'The email field is required.',
+    'string.empty': 'The email must not be empty.',
+    'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
   password: Joi.string().min(6).required().messages({
-    'any.required': 'Missing required <password> field',
-    'string.empty': 'Field <password> cannot be an empty string',
+    'string.base': 'The password must be a string.',
+    'any.required': 'The password field is required.',
+    'string.empty': 'The password must not be empty.',
   }),
 });
 
 // for SendGrid
 const schemaEmail = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'any.required': 'Missing required <email> field',
-    'string.empty': 'Field <email> cannot be an empty string',
+    'string.base': 'The email must be a string.',
+    'any.required': 'The email field is required.',
+    'string.empty': 'The email must not be empty.',
+    'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
 });
 
