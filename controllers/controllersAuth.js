@@ -76,7 +76,7 @@ const verifyEmail = async (req, res) => {
   });
 
   // res.status(200).json({ message: 'Verification successful' }); // Матвій як ми маємо перекинути user далі після успішної
-  res.status(200).redirect(FRONTEND_URL);
+  res.status(200).redirect(`${FRONTEND_URL}/login`);
 };
 
 const resendVerifyEmail = async (req, res) => {
@@ -105,7 +105,7 @@ const resendVerifyEmail = async (req, res) => {
   // res.status(200).json({
   //   message: 'Verification email sent',
   // });
-  res.status(200).redirect(FRONTEND_URL);
+  res.status(200).redirect(`${FRONTEND_URL}/login`);
 };
 
 const login = async (req, res) => {
