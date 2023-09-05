@@ -3,7 +3,7 @@ const { Review } = require('../models/review')
 
 // 1) Get all reviews in the database without authentication.
 const getAllReviews = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query
+  const { page = 1, limit = 100 } = req.query
   if (page <= 0) {
     return res.status(400).json({ message: 'Invalid page number' })
   }
