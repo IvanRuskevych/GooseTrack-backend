@@ -14,6 +14,7 @@
   "produces": [
     "application/json"
   ],
+
   "servers": [
     {
       "url": "https://goosetrack-tj84.onrender.com"
@@ -22,6 +23,7 @@
       "url": "http://localhost:8080"
     }
   ],
+
   "tags": [
     {
       "name": "Auth",
@@ -43,8 +45,8 @@
           "Auth"
         ],
         "summary": "User registration",
-        "parameters": null,
-        "requestBody": {
+        "parameters": [],
+         "requestBody": {
           "description": "Registration's object",
           "required": true,
           "content": {
@@ -472,6 +474,11 @@
           "Reviews"
         ],
         "summary": "Get owner reviews",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "201": {
             "description": "Successful operation",
