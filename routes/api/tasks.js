@@ -11,6 +11,12 @@ router.post("/", authenticate, validateBody(schemas.addTaskSchema), ctrl.add);
 
 router.delete("/:id", authenticate, isValidId, ctrl.deleteTask);
 
-router.patch("/:id", authenticate, isValidId, ctrl.update);
+router.patch(
+  "/:id",
+  authenticate,
+  isValidId,
+  validateBody(schemas.addTaskSchema),
+  ctrl.update
+);
 
 module.exports = router;

@@ -20,6 +20,12 @@ const taskSchema = new Schema(
       type: String,
       required: [true, "End is required"],
       match: timeRegexp,
+      validate: {
+        validator: function (end) {
+          return end > this.start;
+        },
+        message: "End time must be greater than start time",
+      },
     },
     priority: {
       type: String,
@@ -49,7 +55,7 @@ const taskSchema = new Schema(
 
 taskSchema.post("save", handleMongooseError);
 
-// * Проверка, чтоб пользователь не указывал завершение задачи раньше ее начала (start < end)
+// * Checking that the user does not indicate the end of the task before it begins (start < end)
 const validateStartEndTime = (obj, helpers) => {
   function toMinute(time) {
     const arrTime = time.split(":");
