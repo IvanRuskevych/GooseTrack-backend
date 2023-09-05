@@ -38,7 +38,7 @@ router.patch(
 router.delete(
   '/:id',
   isValidId,
-  authenticate,
+  // authenticate,
   reviewController.deleteReviewById
 )
 

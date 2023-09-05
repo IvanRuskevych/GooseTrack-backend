@@ -115,11 +115,41 @@ const updateReviewById = async (req, res) => {
 
 // 5)  Удаление отзыва пользователем по ID отзыва
 
+// const deleteReviewById = async (req, res) => {
+//   const { id } = req.params;
+//   const { _id: owner } = req.user;
+
+//   // Проверяем, есть ли у пользователя отзывы по этому ИД в базе
+//   const review = await Review.findById(id);
+
+//   if (!review) {
+//     res.status(404).json({ error: 'Review not found' });
+//     return;
+//   }
+
+//   // Проверяем, принадлежит ли отзыв текущему пользователю
+//   if (review.owner.equals(owner)) {
+//     // Добавляем проверку на соответствие идентификаторов
+//     if (review._id.equals(id)) {
+//       const result = await Review.findByIdAndRemove(id);
+//       // Если нет, то ошибка
+//       if (!result) {
+//         res.status(404).json({ error: 'Not found' });
+//         return;
+//       }
+//       // Если да, то удаляем
+//       res.json({ message: 'Delete success' });
+//     } else {
+//       res.status(400).json({ error: 'Provided ID does not match the ID in the database' });
+//     }
+//   } else {
+//     res.status(403).json({ error: "You don't have permission to delete this review" });
+//   }
+// };
 const deleteReviewById = async (req, res) => {
   const { id } = req.params;
-  const { _id: owner } = req.user;
 
-  // Проверяем, есть ли у пользователя отзывы по этому ИД в базе
+  // Проверяем, существует ли отзыв с указанным ID в базе данных
   const review = await Review.findById(id);
 
   if (!review) {
@@ -127,24 +157,16 @@ const deleteReviewById = async (req, res) => {
     return;
   }
 
-  // Проверяем, принадлежит ли отзыв текущему пользователю
-  if (review.owner.equals(owner)) {
-    // Добавляем проверку на соответствие идентификаторов
-    if (review._id.equals(id)) {
-      const result = await Review.findByIdAndRemove(id);
-      // Если нет, то ошибка
-      if (!result) {
-        res.status(404).json({ error: 'Not found' });
-        return;
-      }
-      // Если да, то удаляем
-      res.json({ message: 'Delete success' });
-    } else {
-      res.status(400).json({ error: 'Provided ID does not match the ID in the database' });
-    }
-  } else {
-    res.status(403).json({ error: "You don't have permission to delete this review" });
+  // Удаляем отзыв, так как аутентификация не требуется
+  const result = await Review.findByIdAndRemove(id);
+
+  // Проверяем успешность удаления
+  if (!result) {
+    res.status(500).json({ error: 'Failed to delete review' });
+    return;
   }
+
+  res.json({ message: 'Delete success' });
 };
 
 
