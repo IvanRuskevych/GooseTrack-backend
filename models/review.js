@@ -1,7 +1,6 @@
-// СХЕМЫ ДЛЯ ПРОВЕРКИ ПРИ ПЕРЕДАЧИ ОБЬЕКТОВ (mongoDB-Mongoose)
+// SCHEMAS FOR OBJECT VALIDATION (MongoDB-Mongoose)
 
-// reviewSchema проверка того что сохраняется в базе. Проверка перед сохранением
-
+// reviewSchema: Validation for what is saved in the database. Pre-save validation.
 const { Schema, model } = require('mongoose')
 const { handleMongooseError } = require('../utils')
 
@@ -9,13 +8,13 @@ const Joi = require('joi')
 
 const reviewSchema = new Schema(
   {
-    text: { type: String, default: '', required: true, maxlength: 250 }, // кол-во символов в отзыве 250
-    rating: { type: Number, default: 0, required: true, min: 1, max: 5 }, // от 1 до 5 звезд оценку ставим
+    text: { type: String, default: '', required: true, maxlength: 250 }, // Maximum of 250 characters in the review.
+    rating: { type: Number, default: 0, required: true, min: 1, max: 5 }, // Rating from 1 to 5 stars.
 
     owner: {
-      // строка для записи ид пользователя
+      // String to store the user's ID.
       type: Schema.Types.ObjectId,
-      // записываем с какой коллекции данный ид польз
+      // Record which collection this user ID is from.
       ref: 'user',
       required: true
     }
@@ -24,7 +23,8 @@ const reviewSchema = new Schema(
 )
 
 reviewSchema.post('save', handleMongooseError)
-// addReviewSchema JOI схема на проверку того что приходит с фронтенда
+
+// addReviewSchema: JOI schema for validating data coming from the frontend.
 const addReviewSchema = Joi.object({
   text: Joi.string().required().max(250),
   rating: Joi.number().required().min(1).max(5)
@@ -34,7 +34,8 @@ const schemas = {
   reviewSchema,
   addReviewSchema
 }
-//   создаем модель
+
+// Create the model.
 const Review = model('review', reviewSchema)
 
 module.exports = { Review, schemas }
