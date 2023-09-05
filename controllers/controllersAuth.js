@@ -16,7 +16,7 @@ const htmlEmailVerify = require('../views/emailVerify');
 const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
 
 const register = async (req, res) => {
-  const { password, email, name } = req.body;
+  const { password, email } = req.body;
   const user = await User.findOne({ email });
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,7 +27,7 @@ const register = async (req, res) => {
     throw CustomError(409, 'Email in use');
   }
 
-  const newUser = await User.create({
+  await User.create({
     ...req.body,
     password: hashedPassword,
     avatarURL,
@@ -39,26 +39,13 @@ const register = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Email verify instruction',
-    // html: `<a target="_blank" href="${BASE_URL}/auth/verify/${verificationToken}">Click verify email</a>`,
     html: htmlEmailVerify(urlVerify),
   };
 
   sendEmail(verifyEmail);
 
-  const payload = {
-    id: newUser._id,
-  };
-
-  const { accessToken, refreshToken } = createTokens(payload);
-
   res.status(201).json({
     message: 'Verification letter was send to you email.',
-    accessToken,
-    refreshToken,
-    user: {
-      name,
-      email: newUser.email,
-    },
   });
 };
 
@@ -75,7 +62,6 @@ const verifyEmail = async (req, res) => {
     verificationToken: null,
   });
 
-  // res.status(200).json({ message: 'Verification successful' }); // Матвій як ми маємо перекинути user далі після успішної
   res.status(200).redirect(`${FRONTEND_URL}/login`);
 };
 
@@ -96,15 +82,11 @@ const resendVerifyEmail = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify email',
-    // html: `<a target="_blank" href="${BASE_URL}/auth/verify/${user.verificationToken}">Click verify email</a>`,
     html: htmlEmailVerify(urlVerify),
   };
 
   await sendEmail(verifyEmail);
 
-  // res.status(200).json({
-  //   message: 'Verification email sent',
-  // });
   res.status(200).redirect(`${FRONTEND_URL}/login`);
 };
 
@@ -112,7 +94,6 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  console.log('user--->>>', user);
 
   if (!user) {
     throw CustomError(401, 'Email or password is wrong');
@@ -131,11 +112,6 @@ const login = async (req, res) => {
   const payload = {
     id: user._id,
   };
-
-  // const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' });
-  // const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
-  //   expiresIn: '7d',
-  // });
 
   const { accessToken, refreshToken } = createTokens(payload);
 
@@ -159,25 +135,16 @@ const googleAuth = async (req, res) => {
   };
 
   const { accessToken, refreshToken } = createTokens(payload);
-  // const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' });
-  // const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
 
   await User.findByIdAndUpdate(id, { accessToken, refreshToken, verificationToken: null });
-
-  // redirect -->> необхідно перекинути на іншу адресу, на наш beckend і тоді можна буде відправити res to FE
-  // res.redirect(`${FRONTEND_URL}/login`); // це відправка на сторінку login ====FE ма сказати на яку сторінку слід перекинути зареєстрованого/залошіненого юзера
-  // res.redirect(FRONTEND_URL); // це відправка на головну сторінку
-  // при використанні redirect є проблема - відсутня відповідь, тож передати токени можна через hooks, що дуже складно, або через строку в url  в параметрах адреси
 
   res.redirect(`${FRONTEND_URL}?accessToken=${accessToken}&refreshToken=${refreshToken}`); // FE має сказати на яку сторінку слід перекинути зареєстрованого/залошіненого юзера
 };
 
 const refresh = async (req, res) => {
   const { refreshToken: token } = req.body;
-  console.log('=======req.body==========', req.body);
 
   const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
-  console.log('====================', id);
   const isExist = await User.findOne({ refreshToken: token });
 
   if (!isExist) throw CustomError(403, 'Token does not valid');
@@ -187,11 +154,6 @@ const refresh = async (req, res) => {
   };
 
   const { accessToken, refreshToken } = createTokens(payload);
-
-  // const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '7d' }); // 23h
-  // const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
-  //   expiresIn: '7d',
-  // }); // 23h
 
   await User.findByIdAndUpdate(id, { accessToken, refreshToken }, { new: true });
 

@@ -9,7 +9,6 @@ const authenticate = async (req, res, next) => {
   const { authorization = '' } = req.headers;
   const [bearer, token] = authorization.split(' ');
 
-
   if (bearer !== 'Bearer') {
     next(CustomError(401, 'Not authorized'));
   }
@@ -19,7 +18,6 @@ const authenticate = async (req, res, next) => {
 
     const user = await User.findById(id);
 
-    // console.log('USER-authenticate ', user);
     const { accessToken } = user;
 
     if (!user || !accessToken || accessToken !== token) {

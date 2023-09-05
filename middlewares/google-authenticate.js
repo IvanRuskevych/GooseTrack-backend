@@ -21,10 +21,10 @@ const googleCallback = async (req, accessToken, refreshToken, profile, done) => 
     const verificationToken = uuid();
 
     if (user) {
-      return done(null, user); // передає данні далі, а також робить "під капотом" req.user=user
+      return done(null, user);
     }
 
-    const hashedPassword = await bcrypt.hash(uuid(), 10); // user ніколи не використовує, але він є згідно з нашою схемою реєстрації
+    const hashedPassword = await bcrypt.hash(uuid(), 10);
     const newUser = await User.create(
       {
         email,
@@ -36,7 +36,7 @@ const googleCallback = async (req, accessToken, refreshToken, profile, done) => 
     );
     return done(null, newUser);
   } catch (error) {
-    done(error, false); // перекидає на обробник помилок
+    done(error, false);
   }
 };
 

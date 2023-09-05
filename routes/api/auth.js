@@ -9,8 +9,7 @@ const { updateUser, current } = require('../../controllers/controllersUsers');
 /**
  * Google Sign-up
  */
-// якщо запит прийшов на адресу "/google", то застосовуй стратегію "google"
-//  scope - налаштування яке вказує що потрібно повернути з google
+
 router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 router.get(
@@ -52,18 +51,10 @@ router.get('/current', authenticate, current);
  */
 router.patch(
   '/user',
-  // isValidId,
   authenticate,
   upload.single('avatar'),
   validateBody(schemas.updateUserSchema),
   updateUser
 );
-
-// ====================================================================
-
-/**
- * User avatar
- */
-router.patch('/avatar', authenticate, upload.single('avatar'), ctrll.updateAvatar);
 
 module.exports = router;
