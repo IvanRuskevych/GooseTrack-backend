@@ -1,14 +1,15 @@
 const { Task } = require("../models/task");
 const { CustomError } = require("../utils");
+const { ctrlWrapper } = require("../utils");
 
-// Таски по контроллеру getAll получаем за указанный месяц или день. Если ничего не указано - за текущий месяц
+// Get tasks for the getAll controller for the specified month or day. If nothing is specified - for the current month
 
 const getCurrentMonth = () => {
   const formatNumber = (value) => {
     return value.toString().padStart(2, "0");
   };
   const currentDate = new Date();
-  // Номер текущего месяца (0 - январь)
+  // Current month number (0 - January)
   const currentMonth = currentDate.getMonth() + 1;
   const currentYearh = new Date().getFullYear();
   return `${currentYearh}-${formatNumber(currentMonth)}`;
@@ -68,19 +69,23 @@ const update = async (req, res) => {
   const ownerId = req.user._id;
   const newData = req.body;
 
-  // Проверяем, является ли пользователь владельцем задачи
+  // Check if the user is the owner of the task
   const taskToUpdate = await Task.findById(id);
   if (!taskToUpdate) {
     throw CustomError(404, "Task not found");
   }
   if (taskToUpdate.owner.toString() !== ownerId.toString()) {
-    return res
-      .status(403)
-      .json({ code: 403, message: "У вас нет прав на изменение этой задачи" });
+    return res.status(403).json({
+      code: 403,
+      message: "You do not have permission to edit this task",
+    });
   }
 
-  // Если пользователь владелец, обновляем задачу
-  const result = await Task.findByIdAndUpdate(id, newData, { new: true });
+  // If the user is the owner, update the task
+  const result = await Task.findByIdAndUpdate(id, newData, {
+    new: true,
+    runValidators: true,
+  });
 
   res.status(200).json({ code: 200, data: result });
 };
@@ -89,18 +94,19 @@ const deleteTask = async (req, res) => {
   const { id } = req.params;
   const ownerId = req.user._id;
 
-  // Проверяем, является ли пользователь владельцем задачи
+  // Check if the user is the owner of the task
   const taskToDelete = await Task.findById(id);
   if (!taskToDelete) {
     throw CustomError(404, "Task not found");
   }
   if (taskToDelete.owner.toString() !== ownerId.toString()) {
-    return res
-      .status(403)
-      .json({ code: 403, message: "У вас нет прав на удаление этой задачи" });
+    return res.status(403).json({
+      code: 403,
+      message: "You do not have permission to delete this task",
+    });
   }
 
-  // Если пользователь владелец, удаляем задачу
+  // If the user is the owner, delete the task
   const result = await Task.findByIdAndDelete(id);
 
   res
@@ -109,8 +115,8 @@ const deleteTask = async (req, res) => {
 };
 
 module.exports = {
-  getAll,
-  add,
-  update,
-  deleteTask,
+  getAll: ctrlWrapper(getAll),
+  add: ctrlWrapper(add),
+  update: ctrlWrapper(update),
+  deleteTask: ctrlWrapper(deleteTask),
 };
