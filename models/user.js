@@ -6,8 +6,7 @@ const userRolesEnum = require('../constants');
 
 // eslint-disable-next-line no-useless-escape
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-// const dateRegexp = /^(?:(?:0[1-9]|[12][0-9]|3[01])\/(?:0[1-9]|1[0-2])\/(?:19|20)\d\d)?$/;
-// const phoneRegexp = /^38\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}$/;
+// const passwordRegex = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/;
 
 const userSchema = new Schema(
   {
@@ -23,7 +22,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      minlength: 6,
       required: [true, 'Set password for user'],
     },
     birthday: {
@@ -77,7 +75,7 @@ const registerSchema = Joi.object({
     'string.empty': 'The email must not be empty.',
     'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
-  password: Joi.string().min(6).required().messages({
+  password: Joi.string().min(8).max(16).required().messages({
     'string.base': 'The password must be a string.',
     'any.required': 'The password field is required.',
     'string.empty': 'The password must not be empty.',

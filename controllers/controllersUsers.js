@@ -6,7 +6,6 @@ const { ctrlWrapper } = require('../utils');
 const { User } = require('../models/user');
 const { errorUpdateEmail } = require('../services');
 
-// Настройка Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -16,9 +15,6 @@ cloudinary.config({
 const updateUser = async (req, res) => {
   const { id } = req.user;
 
-  // const { email } = req.body;
-  // const userExists = await User.exists({ email, _id: { $ne: id } });
-  // if (userExists) throw CustomError(409, 'User with this email exists..');
   await errorUpdateEmail(req.body.email, id);
 
   let updatedUser = {};
