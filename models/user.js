@@ -6,6 +6,7 @@ const userRolesEnum = require('../constants');
 
 // eslint-disable-next-line no-useless-escape
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+// const passwordRegex = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/;
 
 const userSchema = new Schema(
   {
@@ -21,7 +22,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      minlength: 8,
       required: [true, 'Set password for user'],
     },
     birthday: {
