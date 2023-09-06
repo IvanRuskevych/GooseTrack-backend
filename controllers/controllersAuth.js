@@ -17,6 +17,11 @@ const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
 
 const register = async (req, res) => {
   const { password, email } = req.body;
+
+  if (password.length < 8 || password.length > 16) {
+    throw CustomError(400, 'Password length must be between 8 and 16 characters.');
+  }
+
   const user = await User.findOne({ email });
 
   const hashedPassword = await bcrypt.hash(password, 10);
