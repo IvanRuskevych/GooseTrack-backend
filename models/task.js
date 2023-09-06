@@ -1,17 +1,14 @@
-
-const { Schema, model } = require("mongoose");
-const Joi = require("joi");
-const { handleMongooseError } = require("../utils");
-const moment = require("moment/moment");
-
-
+const { Schema, model } = require('mongoose');
+const Joi = require('joi');
+const { handleMongooseError } = require('../utils');
+const moment = require('moment/moment');
 
 const timeRegexp = /^([01]\d|2[0-3]):[0-5]\d$/;
 const dateRegexp = /^\d{4}-\d{2}-\d{2}$/;
 
 function validateEndTime() {
-  const startTime = moment(this.get("start"), "HH:mm");
-  const endTime = moment(this.get("end"), "HH:mm");
+  const startTime = moment(this.get('start'), 'HH:mm');
+  const endTime = moment(this.get('end'), 'HH:mm');
   return endTime.isAfter(startTime);
 }
 
@@ -33,10 +30,8 @@ const taskSchema = new Schema(
 
       validate: {
         validator: validateEndTime,
-        message: "End time must be greater than start time",
+        message: 'End time must be greater than start time',
       },
-
-
     },
     priority: {
       type: String,
@@ -68,19 +63,17 @@ taskSchema.post('save', handleMongooseError);
 
 // * Checking that the user does not indicate the end of the task before it begins (start < end)
 
-// const validateStartEndTime = (obj, helpers) => {
-//   function toMinute(time) {
-//     const arrTime = time.split(":");
-//     return Number(arrTime[0]) * 60 + Number(arrTime[1]);
-//   }
-//   const { start, end } = obj;
+const validateStartEndTime = (obj, helpers) => {
+  function toMinute(time) {
+    const arrTime = time.split(':');
+    return Number(arrTime[0]) * 60 + Number(arrTime[1]);
+  }
+  const { start, end } = obj;
 
-//   if (toMinute(start) >= toMinute(end)) {
-//     return helpers.error("any.invalid");
-//   }
-// };
-
-
+  if (toMinute(start) >= toMinute(end)) {
+    return helpers.error('any.invalid');
+  }
+};
 
 const addTaskSchema = Joi.object({
   title: Joi.string().required().messages({
@@ -111,14 +104,11 @@ const addTaskSchema = Joi.object({
       'any.only': 'Category must be one of "to-do", "in-progress", or "done"',
     }),
   owner: Joi.string(),
-
-});
-// .custom(validateStartEndTime)
-// .messages({
-//   "any.invalid": `The following condition must be met start<end`,
-// });
-
-
+})
+  .custom(validateStartEndTime)
+  .messages({
+    'any.invalid': `The following condition must be met start<end`,
+  });
 
 const updateCategorySchema = Joi.object({
   category: Joi.string().valid('to-do', 'in-progress', 'done').required(),
