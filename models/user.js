@@ -21,7 +21,8 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      minlength: 6,
+      minlength: 8,
+      maxlength: 16,
       required: [true, 'Set password for user'],
     },
     birthday: {
@@ -75,7 +76,7 @@ const registerSchema = Joi.object({
     'string.empty': 'The email must not be empty.',
     'string.pattern.base': 'The email must be in format test@gmail.com.',
   }),
-  password: Joi.string().min(6).required().messages({
+  password: Joi.string().min(8).max(16).required().messages({
     'string.base': 'The password must be a string.',
     'any.required': 'The password field is required.',
     'string.empty': 'The password must not be empty.',
