@@ -8,9 +8,12 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
-
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "servers": [
     {
       "url": "https://goosetrack-tj84.onrender.com"
@@ -19,7 +22,6 @@
       "url": "http://localhost:8080"
     }
   ],
-
   "tags": [
     {
       "name": "Auth",
@@ -37,7 +39,9 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -62,6 +66,9 @@
               }
             }
           },
+          "400": {
+            "description": "Password length must be between 8 and 16 characters"
+          },
           "409": {
             "description": "Email in use"
           }
@@ -70,7 +77,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -103,7 +112,9 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User logout",
         "parameters": [],
         "security": [
@@ -130,7 +141,9 @@
     },
     "/auth/current": {
       "get": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Get current user info",
         "parameters": [],
         "security": [
@@ -157,7 +170,9 @@
     },
     "/auth/user": {
       "patch": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User updateInfo",
         "parameters": [],
         "security": [
@@ -199,7 +214,9 @@
     },
     "/api/tasks": {
       "get": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Get all tasks",
         "parameters": [
           {
@@ -236,7 +253,9 @@
         }
       },
       "post": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Create task",
         "parameters": [],
         "security": [
@@ -278,7 +297,9 @@
     },
     "/api/tasks/{id}": {
       "patch": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Change tasks",
         "parameters": [
           {
@@ -326,7 +347,9 @@
         }
       },
       "delete": {
-        "tags": ["Tasks"],
+        "tags": [
+          "Tasks"
+        ],
         "summary": "Delete task",
         "parameters": [
           {
@@ -365,7 +388,9 @@
     },
     "/api/reviews": {
       "get": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Get all reviews all users",
         "parameters": [
           {
@@ -403,7 +428,9 @@
     },
     "/api/reviews/": {
       "post": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Create review",
         "parameters": [],
         "security": [
@@ -444,7 +471,9 @@
     },
     "/api/reviews/own": {
       "get": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Get owner reviews",
         "security": [
           {
@@ -474,7 +503,9 @@
     },
     "/api/reviews/{id}": {
       "patch": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Change review",
         "parameters": [
           {
@@ -526,7 +557,9 @@
         }
       },
       "delete": {
-        "tags": ["Reviews"],
+        "tags": [
+          "Reviews"
+        ],
         "summary": "Review delete",
         "parameters": [
           {
@@ -586,30 +619,10 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
-          "accessToken": {
+          "message": {
             "type": "string",
-            "description": "Access Token",
-            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
-          },
-          "refreshToken": {
-            "type": "string",
-            "description": "Refrash Token",
-            "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWQyM2YxODRiYzE1ZGQwZmQ4ZTJkZSIsImlhdCI6MTY5MzI2MzgyMywiZXhwIjoxNjkzODY4NjIzfQ.eeY9oLv4mDDWYlMyxhxXYm0op2lBrolQzAHJqFZmjgw"
-          },
-          "user": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "format": "name"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              }
-            }
+            "description": "message",
+            "format": "Verification letter was send to you email."
           }
         }
       },
@@ -632,7 +645,11 @@
             "minLength": 6
           }
         },
-        "required": ["name", "email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
         "example": {
           "name": "User name",
           "email": "kedimi2277@searpen.com",
@@ -664,7 +681,10 @@
             "description": "User's birthday"
           }
         },
-        "required": ["name", "email"],
+        "required": [
+          "name",
+          "email"
+        ],
         "example": {
           "name": "User name",
           "email": "user@gmail.com",
@@ -729,7 +749,10 @@
             "example": "Password12345$"
           }
         },
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "example": {
           "email": "kedimi2277@searpen.com",
           "password": "kedimi2277"
@@ -773,7 +796,9 @@
             "format": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
           }
         },
-        "required": ["accessToken"],
+        "required": [
+          "accessToken"
+        ],
         "example": {
           "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzliYThiYjMwOWQ4ZmJiZDA0NWRlOSIsImlhdCI6MTY4NTcwMzQyMCwiZXhwIjoxNjg1Nzg2MjIwfQ.QRWRzG0JpnCy5NjkvEi2sOnR82"
         }
@@ -866,7 +891,14 @@
       },
       "CreateTaskRequest": {
         "type": "object",
-        "required": ["title", "date", "start", "end", "priority", "category"],
+        "required": [
+          "title",
+          "date",
+          "start",
+          "end",
+          "priority",
+          "category"
+        ],
         "properties": {
           "title": {
             "type": "string",
@@ -1141,7 +1173,10 @@
       },
       "CreateReviewRequest": {
         "type": "object",
-        "required": ["rating", "comment"],
+        "required": [
+          "rating",
+          "comment"
+        ],
         "properties": {
           "rating": {
             "type": "integer",
