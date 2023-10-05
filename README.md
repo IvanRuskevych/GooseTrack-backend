@@ -1,50 +1,41 @@
 # GooseTrack - backend part
 
-## Tools
+Welcome to the GooseTrack backend API! 
+This API provides powerful functionality for managing and retrieving tasks and reviews, allowing you to effortlessly streamline your workflow.
 
-Goose Track is built using the following tools:
+## Description
 
-- [Node.js](https://nodejs.org/)
-- [Express.js](https://expressjs.com)
-- [MongoDB](https://www.mongodb.com/)
+The GooseTrack backend API offers a comprehensive set of features to help you stay organized and keep track of your tasks and reviews. With this API, you can:
 
-## Installation
+- Seamlessly retrieve tasks
+- Effortlessly create new tasks
+- Easily update existing tasks
+- Conveniently delete tasks
+- Access all your valuable reviews
+- Gain insights from your own reviews
+- Effortlessly create and update reviews
+- Maintain control by deleting unwanted reviews
 
-To install Goose Track, follow these steps:
+Certain routes require authentication, ensuring the security and privacy of your data. Our API uses JSON Web Tokens (JWT) as the authentication mechanism, providing a robust and reliable authentication process.
+[Live pages GooseTrack](https://kharkivska-kurkuma.github.io/GooseTrack)
 
-1. Clone the Goose Track repository to your local machine using "git clone https://github.com/IvanRuskevych/GooseTrack-backend.git"
-2. Navigate to the project directory "GooseTrack-backend".
-3. Install dependencies using "npm install".
-4. Create .env and add your environment variables like in .env.example:
+## API Documentation
 
-   - MONGO_URL: your MongoDB connection string
-   - PORT: port of this program
-   - SENDGRID_API_KEY: secret key email service
-   - SENDGRID_EMAIL_FROM: user email service
+For detailed documentation of the API endpoints, request/response formats, and authentication requirements, please refer to the provided Swagger specification file.
+[Swagger](https://goosetrack-tj84.onrender.com/api-docs/)
 
-   - EMAIL_PASS: password email service--
+## Authentication
 
-   - CLOUDINARY_CLOUD_NAME: cloudnery api name
-   - CLOUDINARY_API_KEY: cloudnery api key
-   - CLOUDINARY_API_SECRET: cloudnery api secret
+To access protected routes in the API, you must include a valid JWT token in the `Authorization` header of your HTTP requests. Ensure that the token is prefixed with the word "Bearer".
 
-   - CLOUDINARY_URL: cloudnery URL--
+## Usage
 
-   - GOOGLE_CLIENT_ID: id google client
-   - GOOGLE_CLIENT_SECRET: secret string for signing google client
+To get started with the GooseTrack backend API, follow these steps:
 
-   - FRONTEND_URL: URL Front End part
+1. Start by integrating the frontend part of GooseTrack with this backend API.
+2. Once the frontend is connected, you can seamlessly interact with the backend API through the provided endpoints.
+3. Use tools such as cURL, Postman, or any programming language/library of your choice to make HTTP requests to the API endpoints.
+4. Leverage the power of the API to manage tasks and reviews efficiently and effortlessly.
+   
 
-   - REFRESH_SECRET_KEY: secret string for signing refresh token
-   - ACCESS_SECRET_KEY: secret string for signing access token
 
-5. Start the server using
-
-- $ npm run dev - for start
-
-## Links
-
-- [Live Demo](https://kharkivska-kurkuma.github.io/GooseTrack)
-- [Frontend Repository](https://github.com/KHARKIVSKA-KURKUMA/GooseTrack)
-- [Backend Repository](https://github.com/IvanRuskevych/GooseTrack-backend)
-- [Swagger](https://goosetrack-tj84.onrender.com/api-docs/)
