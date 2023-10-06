@@ -36,6 +36,9 @@ To get started with the GooseTrack backend API, follow these steps:
 2. Once the frontend is connected, you can seamlessly interact with the backend API through the provided endpoints.
 3. Use tools such as cURL, Postman, or any programming language/library of your choice to make HTTP requests to the API endpoints.
 4. Leverage the power of the API to manage tasks and reviews efficiently and effortlessly.
-   
+
+## Links
+
+   [GooseTrack-frontend-gh-pages](https://github.com/KHARKIVSKA-KURKUMA/GooseTrack)
 
 
